@@ -34,7 +34,10 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
 .success-overlay,.closed,.outside{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.7);backdrop-filter:blur(7px);z-index:50}.success-overlay.active,.closed.show,.outside.show{display:flex}.card{width:min(570px,100%);background:#fff;border-radius:27px;padding:27px;box-shadow:var(--shadow);max-height:92vh;overflow:auto;text-align:center}.tick{width:70px;height:70px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:35px;margin:0 auto 14px}.card h2{font-family:Anton,sans-serif;font-size:38px}.info{margin-top:18px;background:#f6f6f6;border-radius:16px;padding:15px;text-align:left;line-height:1.65;font-size:13px}.live{margin-top:16px;text-align:left;padding:16px;border-radius:17px;border:1px solid var(--line)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-right:7px}
 @media(max-width:600px){body{background-attachment:scroll;padding:10px}.checkout{padding:21px 15px;border-radius:24px}.choice-grid{grid-template-columns:1fr}.choice{min-height:88px}.buildings{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.step.active{animation:none}.choice,.primary,.secondary{transition:none}.card{backdrop-filter:none}}
+@media print{body{background:#fff;padding:0}.checkout,.progress,.step,.success-overlay{box-shadow:none}.success-overlay.active{position:static;display:block;background:#fff}.success-overlay .card{max-height:none;box-shadow:none;width:100%}#notificationBtn,#homeBtn,#printBillBtn{display:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+.terms-box{margin:18px 0;padding:16px;border:1px solid #d9d9d9;border-radius:16px;background:#f8f8f8;color:#171717}.terms-box h2{font-size:17px;line-height:1.35;margin-bottom:8px}.terms-box>p{font-size:12px;line-height:1.5;color:#555;margin:0 0 12px}.terms-scroll{height:230px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ddd;border-radius:12px;background:#fff;padding:13px;line-height:1.5;font-size:12px}.terms-scroll h3{font-size:12px;margin:10px 0 5px}.terms-scroll h3:first-child{margin-top:0}.terms-scroll ul{padding-left:19px}.terms-scroll li{margin:0 0 8px}.terms-scroll p{margin:5px 0}.terms-accept{display:flex;align-items:flex-start;gap:10px;margin:13px 0 4px;font-size:13px;font-weight:700;line-height:1.45;color:inherit}.terms-accept input{width:18px;height:18px;flex:0 0 18px;margin-top:1px;accent-color:#111}.terms-accept a{color:inherit;text-decoration:underline}.terms-required{font-size:11px;color:#b42318;margin-top:5px}.terms-box button:disabled{opacity:.45;cursor:not-allowed}
 </style>
 
   <!-- EmailJS -->
@@ -58,34 +61,28 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
 <body>
 
 <div class="closed" id="closedOverlay"><div class="card"><h2>🔴 STORE CLOSED</h2><p id="closedMessage">The store is currently closed.</p><button class="primary" id="closedBtn">OK</button></div></div>
-<div class="outside" id="outsideOverlay"><div class="card">
-  <h2>DELIVERY ADDRESS</h2><p class="lead">Enter your address or detect your location. Outside Star Galaxy Apartments, you can place an order from any location. Please provide an accurate delivery address.</p>
-  <div class="field" style="text-align:left"><label for="outsideAddress">FULL DELIVERY ADDRESS</label><input id="outsideAddress" autocomplete="street-address" placeholder="House, road, locality, Patna"></div>
-  <button class="primary" id="detectLocationBtn" type="button">USE MY CURRENT LOCATION</button>
-  <button class="primary" id="checkAddressBtn" type="button">CHECK DELIVERY AREA</button>
-  <div class="status" id="addressStatus" role="status"></div>
-  <button class="secondary" id="cancelOutsideBtn" type="button">BACK</button>
-</div></div>
+
 
 <main class="checkout">
   <header class="brand"><div class="logo">MPOXEL</div><p class="subtitle">Seller Marketplace • Secure Checkout</p></header>
   <div class="progress"><span id="p1" class="active"></span><span id="p2"></span><span id="p3"></span><span id="p4"></span></div>
 
   <section class="step active" id="step1">
-    <h1>WHERE ARE YOU?</h1><p class="lead">We use this only to confirm delivery eligibility.</p>
-    <div class="choice-grid"><button class="choice yes" id="yesBtn">YES<br><small>Star Galaxy</small></button><button class="choice no" id="noBtn">NO<br><small>Outside</small></button></div>
+    <h1>CONFIRM YOUR ADDRESS</h1><p class="lead">Check the delivery address before continuing. You can update it later in Settings.</p>
+    <div class="section-card">
+      <div class="field"><label for="deliveryAddressInput">FULL DELIVERY ADDRESS</label><input id="deliveryAddressInput" autocomplete="street-address" maxlength="350" placeholder="Flat / house, street, locality, city, PIN code" required></div>
+      <button class="secondary" id="detectLocationBtn" type="button">USE MY CURRENT LOCATION</button>
+      <div class="status" id="addressStatus" role="status"></div>
+      <button class="primary" id="confirmAddressBtn" type="button">CONFIRM ADDRESS</button>
+    </div>
   </section>
 
   <section class="step" id="step2">
     <h1>DELIVERY DETAILS</h1><p class="lead">Tell us where to bring your order.</p>
     <div class="section-card">
-      <label id="blockLabel">BUILDING / BLOCK</label>
-      <div class="buildings" id="buildingChoices">
-        <button class="building" data-block="A"><div class="tower"></div>A</button>
-        <button class="building" data-block="B"><div class="tower"></div>B</button>
-        <button class="building" data-block="C"><div class="tower"></div>C</button>
-        <button class="building" data-block="D"><div class="tower"></div>D</button>
-      </div>
+      <label>CONFIRMED DELIVERY ADDRESS</label>
+      <div class="notice" id="confirmedAddressNotice">Add and confirm your delivery address in the previous step.</div>
+      <button class="secondary" id="editAddressBtn" type="button">EDIT ADDRESS</button>
       <div class="field"><label for="customerName">YOUR NAME</label><input id="customerName" maxlength="60" autocomplete="name" placeholder="Enter your name"></div>
       <div class="field"><label for="customerPhone">PHONE NUMBER</label><div class="phone"><span class="country">🇮🇳 +91</span><input id="customerPhone" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="10-digit mobile number"></div><div class="error" id="phoneError">Enter exactly 10 digits.</div></div>
       <div class="notice"><strong>⚠ DELIVERY</strong>Your food will be delivered to the receptionist when the package is out for delivery.</div>
@@ -104,10 +101,11 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
         <input id="email" type="email" autocomplete="email" placeholder="Email address">
         <input id="password" type="password" autocomplete="new-password" placeholder="Password (minimum 6 characters)">
       </div>
+<section class="terms-box" aria-labelledby="termsTitle"><h2 id="termsTitle">📄 MERCHANT TERMS OF SERVICE &amp; PARTNER AGREEMENT</h2><p><strong>Operating Brand:</strong> mPoxel-Foods<br><strong>Jurisdiction:</strong> Patna, Bihar, India<br><strong>Last Updated:</strong> October 2026</p><div class="terms-scroll" tabindex="0" role="region" aria-label="Terms and conditions; scroll to read the full agreement"><h3>1. NATURE OF SERVICE &amp; PLATFORM STATUS</h3><ul><li><strong>Technological Intermediary Only:</strong> mPoxel-Foods is strictly a technology platform that routes customer discovery and payment processing. It is not a restaurant, caterer, food preparer, or logistics operator.</li><li><strong>No FBO Liability:</strong> The restaurant acknowledges that mPoxel-Foods never takes possession of, handles, or inspects the food at any stage. All food preparation, legal compliance, and packaging are the exclusive duty of the restaurant.</li></ul><h3>2. DYNAMIC ROUTING &amp; MANDATORY FSSAI COMPLIANCE</h3><ul><li><strong>Dynamic Order Allocation:</strong> The restaurant acknowledges and agrees that the mPoxel-Foods platform utilizes a dynamic, post-payment order matching algorithm. A customer order is processed first, and the specific fulfilling restaurant is assigned dynamically immediately thereafter.</li><li><strong>Instant Digital Post-Order Disclosure:</strong> To satisfy transparency requirements, the platform will instantly transmit the fulfilling restaurant's <strong>Registered Business Name, Physical Address, and FSSAI License Number</strong> to the consumer via automated confirmation Email and/or SMS text message immediately upon order assignment.</li><li><strong>Restaurant Warranty:</strong> The restaurant warrants that it possesses a valid, active FSSAI License or Registration. The restaurant gives mPoxel-Foods explicit, unconditional authorization to publish and transmit its FSSAI number to customers via email/text.</li><li><strong>Failure to Comply:</strong> If the restaurant fails to maintain an active FSSAI license, or provides an invalid number to the platform, the restaurant shall be solely liable for any regulatory enforcement, fines, or legal actions initiated by the Food Safety and Standards Authority of India (FSSAI), completely keeping mPoxel-Foods harmless.</li></ul><h3>3. FLAT SUBSCRIPTION FEE &amp; INSTANT TRANSACTION ROUTING</h3><ul><li><strong>Flat Monthly Fee:</strong> The restaurant agrees to pay a fixed, flat monthly subscription fee to access mPoxel-Foods network routing services. This fee is non-refundable and is charged regardless of order volume.</li><li><strong>Instant Settlement Split:</strong> At the exact microsecond the customer completes payment on the platform, <strong>100% of the food order value is routed instantly and directly to the restaurant’s designated bank account or UPI ID</strong>.</li><li><strong>No Escrow/Holding:</strong> The restaurant explicitly acknowledges that mPoxel-Foods does not hold, clear, or escrow order funds. The restaurant takes immediate ownership of the revenue at checkout.</li></ul><h3>4. ABSOLUTE RISK &amp; DAMAGE ABSORPTION BY RESTAURANT</h3><ul><li><strong>Zero Cancellation Recourse:</strong> Because 100% of the order funds are cleared to the restaurant instantly at checkout, <strong>the restaurant assumes all financial risks for order cancellations</strong>. If a customer cancels an order after payment or preparation, the restaurant absorbs the loss completely.</li><li><strong>Transit Damage Risk:</strong> Whether the delivery is executed via independent third-party APIs (e.g., Ola Fleet) or the restaurant’s own self-managed riders, <strong>any and all food spillage, transit damage, temperature drops, or delivery delays are 100% absorbed by the restaurant</strong>.</li><li><strong>No Platform Chargebacks for Logistics:</strong> The platform will under no circumstances reimburse the restaurant for food destroyed or lost in transit by third-party delivery personnel or self-delivery staff.</li></ul><h3>5. FULL HYGIENE, QUALITY, AND LEGAL INDEMNIFICATION</h3><ul><li><strong>Absolute Product Liability:</strong> The restaurant assumes sole liability for food safety, hygiene, proper cooking, foreign objects, poisoning, spoilage, mislabeling, or failure to disclose allergens.</li><li><strong>Defensive Indemnity:</strong> The restaurant agrees to indemnify, defend, and hold completely harmless mPoxel-Foods, its directors, and employees against any legal notices, consumer court complaints, health department penalties, police actions, or monetary claims arising from foodborne illness or violation of the Food Safety and Standards Act.</li><li><strong>Legal Cost Recovery:</strong> If mPoxel-Foods is dragged into a consumer court dispute regarding food quality, the restaurant agrees to pay all legal, attorney, and administrative costs incurred by mPoxel-Foods.</li></ul><h3>6. ABSOLUTE PLATFORM DISCRETION FOR CUSTOMER REFUNDS</h3><ul><li><strong>Refund Authority:</strong> If a customer raises a valid complaint (e.g., missing items, incorrect items, contaminated food), mPoxel-Foods maintains the absolute and final right to issue a refund or coupon to the consumer.</li><li><strong>Direct Clawback Debt:</strong> Since the order funds were already sent to the restaurant instantly at checkout, any customer refund issued by the platform constitutes a <strong>direct debt</strong> owed by the restaurant to mPoxel-Foods. The platform is legally authorized to recover these funds by adding them to the next monthly subscription bill, sending a direct UPI payment collect request, or temporarily suspending platform routing access until the debt is cleared.</li></ul><h3>7. GOVERNING LAW AND JURISDICTION</h3><p>This Agreement is governed by the laws of India. Any unresolved disputes, collection claims, or legal actions shall be initiated and maintained exclusively in the competent courts located in <strong>Patna, Bihar, India</strong>.</p></div></section><label class="terms-accept" for="termsAcceptedCustomer"><input id="termsAcceptedCustomer" type="checkbox"><span>I have read and agree to the full Terms of Service &amp; Partner Agreement above. Acceptance is required to create an account or sign in.</span></label><p class="terms-required" id="termsRequiredCustomer">Please review the agreement and check the box to continue.</p>
       <div class="account-note">Already have an account? <button class="switch" id="accountSwitch">Sign in</button></div>
       <div class="status" id="accountStatus"></div>
     </div>
-    <button class="primary" id="accountBtn">CREATE ACCOUNT & CONTINUE</button>
+    <button class="primary" id="accountBtn" disabled>CREATE ACCOUNT & CONTINUE</button>
     <button class="secondary" id="backToDetails">BACK</button>
   </section>
 
@@ -115,9 +113,9 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
     <h1>PAYMENT</h1><p class="lead">Choose how you want to pay.</p>
     <div class="payments">
       <button class="payment selected" data-payment="Cash on Delivery"><span class="payicon">💵</span><span><strong>Cash on Delivery</strong><small>Pay when your food arrives</small></span><b>✓</b></button>
-      <button class="payment" data-payment="Online Payment"><span class="payicon">⚡</span><span><strong>Online Payment</strong><small>Pay securely online</small></span><b>—</b></button>
+      <button class="payment off" data-payment="Online Payment" disabled aria-disabled="true"><span class="payicon">⏸️</span><span><strong>Online Payment (Temporarily Disabled)</strong><small>Not available right now</small></span><b>—</b></button>
     </div>
-    <div class="notice"><strong>PAYMENT INFO</strong>Choose Cash on Delivery or Online Payment. Delivery is free for orders of ₹300 or more. Orders under ₹300 have a ₹20 delivery charge.</div>
+    <div class="notice"><strong>PAYMENT INFO</strong>Online payment is temporarily unavailable. Please choose Cash on Delivery. Your first order has free delivery. After that, delivery is ₹20 for each item priced below ₹149. Every order includes ₹10 package handling and ₹10 miscellaneous charges.</div>
     <div class="coupon-box">
       <label for="couponCode">DISCOUNT COUPON</label>
       <div class="coupon-row"><input id="couponCode" type="text" maxlength="40" placeholder="ENTER COUPON CODE" autocomplete="off"><button id="applyCouponBtn" type="button">APPLY</button></div>
@@ -135,7 +133,7 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
   <div class="card">
     <div class="tick">✓</div><h2>ORDER PLACED</h2><p id="successText" class="lead"></p>
     <div class="live"><span class="dot"></span><strong id="liveStatus">Order received</strong><p id="statusDetail" style="color:#777;margin-top:5px">Our admin is receiving your order.</p></div>
-    <div class="info" id="finalInfo"></div>
+    <div class="info" id="finalInfo"></div><button class="secondary" id="printBillBtn" type="button">PRINT / SAVE BILL</button>
     <button class="primary" id="notificationBtn">🔔 ENABLE ORDER NOTIFICATIONS</button>
     <button class="secondary" id="homeBtn">BACK TO HOME</button>
   </div>
@@ -143,7 +141,7 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {getDatabase,ref,push,set,onValue,get,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+import {getDatabase,ref,push,set,onValue,get,query,orderByChild,equalTo,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 /* =========================================================
@@ -168,7 +166,7 @@ async function sendEmailOrderAlert(orderId, order) {
     customer_name: order.customerName || "",
     customer_phone: order.phone || "",
     customer_block: order.block || "",
-    customer_address: order.deliveryAddress || "Star Galaxy Apartments",
+    customer_address: order.deliveryAddress || "",
     items,
     subtotal: order.bill ?? 0,
     delivery_charge: order.deliveryCharge ? `₹${order.deliveryCharge}` : "FREE",
@@ -214,11 +212,15 @@ const raw=localStorage.getItem("prachiOrderCart");
 const cart=raw?JSON.parse(raw):{};
 const subtotal=Number(localStorage.getItem("prachiOrderTotal")||0);
 let selectedBlock="",deliveryAddress="",outsideDelivery=false,paymentMethod="Cash on Delivery",deliveryCharge=0,currentUser=null,signInMode=false,storeIsOpen=true,storeLoaded=false,menuAvailability={};
+const packageHandlingCharge=10, miscellaneousCharge=10;
+let hasPreviousOrders=false, orderHistoryChecked=false;
+async function checkOrderHistory(){if(!currentUser){hasPreviousOrders=false;orderHistoryChecked=true;return}try{const ownOrdersQuery=query(ref(db,"orders"),orderByChild("ownerUid"),equalTo(currentUser.uid));const snap=await get(ownOrdersQuery);const all=snap.val()||{};hasPreviousOrders=Object.values(all).some(o=>o && o.ownerUid===currentUser.uid && o.customOrder!==true);orderHistoryChecked=true;}catch(e){console.error("Order history check failed",e);if(localStorage.getItem("prachiHasOrdered")==="true")hasPreviousOrders=true;orderHistoryChecked=true;}}
 let appliedCouponCode="",appliedCouponPercent=0,discountAmount=0;
 
 onAuthStateChanged(auth,user=>{currentUser=user||null;if(user){$("email").value=user.email||"";$("password").value="";}});
 const menuKey=n=>String(n||"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
-const unavailable=()=>Object.keys(cart).filter(n=>menuAvailability[menuKey(n)]===false);
+const baseFoodName=n=>String(n||"").replace(/\s*\(Half Plate\)$/i,"");
+const unavailable=()=>Object.keys(cart).filter(n=>menuAvailability[menuKey(baseFoodName(n))]===false);
 
 onValue(ref(db,"menuAvailability"),s=>{menuAvailability=s.val()||{};renderAvailability();});
 onValue(ref(db,"storeStatus"),s=>{const v=s.val();storeIsOpen=v?.isOpen!==false;storeLoaded=true;if(!storeIsOpen)$("closedOverlay").classList.add("show");});
@@ -234,14 +236,14 @@ function discountedSubtotal(){
  return Math.max(0, subtotal - discountAmount);
 }
 function finalCheckoutTotal(){
- return discountedSubtotal() + deliveryCharge;
+ return discountedSubtotal() + deliveryCharge + packageHandlingCharge + miscellaneousCharge;
 }
 function renderCouponBreakdown(){
  const box=$("couponBreakdown");
  if(!box)return;
  box.innerHTML=appliedCouponCode
-  ? `<div><span>Subtotal</span><strong>₹${subtotal.toFixed(2)}</strong></div><div class="discount"><span>${escapeHtml(appliedCouponCode)} (${appliedCouponPercent}% OFF)</span><strong>-₹${discountAmount.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${deliveryCharge?"₹"+deliveryCharge:"FREE"}</strong></div>`
-  : `<div><span>Subtotal</span><strong>₹${subtotal.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${deliveryCharge?"₹"+deliveryCharge:"FREE"}</strong></div>`;
+  ? `<div><span>Food subtotal</span><strong>₹${subtotal.toFixed(2)}</strong></div><div class="discount"><span>${escapeHtml(appliedCouponCode)} (${appliedCouponPercent}% OFF)</span><strong>-₹${discountAmount.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${deliveryCharge?"₹"+deliveryCharge:"FREE (first order)"}</strong></div><div><span>Package handling</span><strong>₹${packageHandlingCharge}</strong></div><div><span>Miscellaneous</span><strong>₹${miscellaneousCharge}</strong></div>`
+  : `<div><span>Food subtotal</span><strong>₹${subtotal.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${deliveryCharge?"₹"+deliveryCharge:"FREE (first order)"}</strong></div><div><span>Package handling</span><strong>₹${packageHandlingCharge}</strong></div><div><span>Miscellaneous</span><strong>₹${miscellaneousCharge}</strong></div>`;
  $("finalTotal").textContent=`₹${finalCheckoutTotal().toFixed(2)}`;
 }
 async function applyCoupon(){
@@ -282,73 +284,65 @@ function step(n){
 }
 function message(el,text,good=false){el.textContent=text;el.className="status show "+(good?"good":"bad")}
 
-$("yesBtn").onclick=()=>{if(!storeLoaded||!storeIsOpen)return;outsideDelivery=false;deliveryAddress="";selectedBlock="";$("buildingChoices").style.display="grid";$("blockLabel").textContent="BUILDING / BLOCK";summary();renderAvailability();step(2)};
-
-$("noBtn").onclick=()=>$("outsideOverlay").classList.add("show");
-$("cancelOutsideBtn").onclick=()=>$("outsideOverlay").classList.remove("show");
-// Outside Star Galaxy Apartments, all locations are accepted; there is no locality whitelist.
-async function resolveAddress(query){
- const url="https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=in&q="+encodeURIComponent(query);
- const r=await fetch(url,{headers:{"Accept":"application/json"}});
- if(!r.ok)return null;
- const results=await r.json();
- return results.length ? results[0] : null;
+function setConfirmedAddress(value){
+ deliveryAddress=String(value||"").trim();
+ selectedBlock=""; outsideDelivery=false;
+ $("confirmedAddressNotice").textContent=deliveryAddress;
+ try{localStorage.setItem("prachiSavedAddress",deliveryAddress)}catch(_){}
 }
-async function checkOutsideAddress(address){
- const status=$("addressStatus"),btn=$("checkAddressBtn");
- const value=String(address||"").trim();
- if(value.length<8){message(status,"Enter a more complete address, including your locality and Patna.");return}
- btn.disabled=true;btn.textContent="CHECKING...";
- status.className="status show";status.textContent="Checking the delivery area...";
- try{
-   // Address lookup improves formatting when available, but must never block an outside-area order.
-   let result=null;
-   try{result=await resolveAddress(value)}catch(_){result=null}
-   const display=(result&&result.display_name)||value;
-   $("outsideAddress").value=display;
-   deliveryAddress=display;outsideDelivery=true;selectedBlock="Outside apartment";
-   $("buildingChoices").style.display="none";$("blockLabel").textContent="DELIVERY AREA";
-   $("orderSummary").insertAdjacentHTML("afterbegin",'<div class="notice"><strong>DELIVERY ADDRESS</strong><span id="confirmedAddress"></span></div>');
-   $("confirmedAddress").textContent=deliveryAddress;
-   $("outsideOverlay").classList.remove("show");
-   summary();renderAvailability();step(2);
- }catch(e){message(status,e.message||"Could not check this address. Try again.");}
- finally{btn.disabled=false;btn.textContent="CHECK DELIVERY AREA"}
-}
-$("checkAddressBtn").onclick=()=>checkOutsideAddress($("outsideAddress").value);
+$("confirmAddressBtn").onclick=()=>{
+ const value=$("deliveryAddressInput").value.trim();
+ if(value.length<8){message($("addressStatus"),"Enter a complete address with house/flat, locality and city.");return}
+ setConfirmedAddress(value); summary(); renderAvailability(); step(2);
+};
+$("editAddressBtn").onclick=()=>step(1);
 $("detectLocationBtn").onclick=()=>{
  const status=$("addressStatus");
- if(!navigator.geolocation){message(status,"Location detection isn't supported. Enter your address manually.");return}
+ if(!navigator.geolocation){message(status,"Location detection is not supported. Enter your address manually.");return}
  const b=$("detectLocationBtn");b.disabled=true;b.textContent="DETECTING LOCATION...";
  navigator.geolocation.getCurrentPosition(async pos=>{
   try{
    const url=`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`;
    const r=await fetch(url,{headers:{"Accept":"application/json"}});if(!r.ok)throw new Error("Could not resolve your location.");
-   const data=await r.json();$("outsideAddress").value=data.display_name||"";
-   if(!$("outsideAddress").value)throw new Error("Location address not found.");
-   message(status,"Location detected. Check the address to confirm delivery.");
+   const data=await r.json();$("deliveryAddressInput").value=data.display_name||"";
+   if(!$("deliveryAddressInput").value)throw new Error("Location address not found.");
+   message(status,"Location detected. Confirm the address before continuing.",true);
   }catch(e){message(status,e.message||"Could not detect address. Enter it manually.");}
   finally{b.disabled=false;b.textContent="USE MY CURRENT LOCATION"}
- },err=>{message(status,err.code===1?"Location permission was denied. Enter your address manually.":"Location unavailable. Enter your address manually.");b.disabled=false;b.textContent="USE MY CURRENT LOCATION"},{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
+ },err=>{message(status,err.code===1?"Location permission was denied. Enter your address manually.":"Location unavailable. Enter it manually.");b.disabled=false;b.textContent="USE MY CURRENT LOCATION"},{enableHighAccuracy:false,timeout:10000,maximumAge:300000});
 };
 $("closedBtn").onclick=()=>$("closedOverlay").classList.remove("show");
 $("applyCouponBtn").onclick=applyCoupon;
 $("couponCode").addEventListener("input",()=>{ $("couponMessage").textContent=""; $("couponMessage").className="coupon-message"; });
 
-document.querySelectorAll(".building").forEach(b=>b.onclick=()=>{document.querySelectorAll(".building").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");selectedBlock=b.dataset.block});
+
 $("customerPhone").oninput=e=>{e.target.value=e.target.value.replace(/\D/g,"").slice(0,10);$("phoneError").classList.remove("show")};
 
-$("continueBtn").onclick=()=>{
- if(!selectedBlock||(!outsideDelivery&&!selectedBlock)){message($("availabilityWarning"),"Select your building / block first.");return}
+$("continueBtn").onclick=async()=>{
+ if(!deliveryAddress){message($("availabilityWarning"),"Confirm your delivery address first.");step(1);return}
  if(!$("customerName").value.trim()){ $("customerName").focus();return}
  if(!/^\d{10}$/.test($("customerPhone").value.trim())){$("phoneError").classList.add("show");return}
  if(!Object.keys(cart).length){message($("availabilityWarning"),"Your cart is empty.");return}
+ if(currentUser){
+  try{
+   const profile={name:$("customerName").value.trim(),phone:"+91"+$("customerPhone").value.trim(),deliveryAddress,email:currentUser.email||"",updatedAt:serverTimestamp()};
+   await set(ref(db,`customers/${currentUser.uid}`),profile);
+   localStorage.setItem("prachiProfile",JSON.stringify({ownerUid:currentUser.uid,...profile}));
+   localStorage.setItem("prachiSavedAddress",deliveryAddress);
+   calculateTotal();step(4);
+  }catch(e){message($("availabilityWarning"),"Could not save your details. Please try again.");}
+  return;
+ }
  step(3);
 };
 
 $("accountSwitch").onclick=()=>{signInMode=!signInMode;$("accountTitle").textContent=signInMode?"SIGN IN":"CREATE ACCOUNT";$("accountDescription").textContent=signInMode?"Sign in to your existing Mpoxel Foods account.":"Use your email and a password. Returning customers can sign in instead.";$("accountBtn").textContent=signInMode?"SIGN IN & CONTINUE":"CREATE ACCOUNT & CONTINUE";$("password").autocomplete=signInMode?"current-password":"new-password";$("accountSwitch").textContent=signInMode?"Create account":"Sign in";$("accountStatus").className="status"};
 
+const customerTermsCheckbox=$("termsAcceptedCustomer");
+const customerAccountButton=$("accountBtn");
+customerTermsCheckbox.addEventListener("change",()=>{customerAccountButton.disabled=!customerTermsCheckbox.checked;$("termsRequiredCustomer").hidden=customerTermsCheckbox.checked;});
 $("accountBtn").onclick=async()=>{
+ if(!customerTermsCheckbox.checked){message($("accountStatus"),"You must accept the Terms of Service before signing in or creating an account.");customerTermsCheckbox.focus();return;}
  const email=$("email").value.trim(),password=$("password").value;
  if(!email||!email.includes("@")){message($("accountStatus"),"Enter a valid email address.");return}
  if(password.length<6){message($("accountStatus"),"Password must contain at least 6 characters.");return}
@@ -356,7 +350,8 @@ $("accountBtn").onclick=async()=>{
  try{
   const cred=signInMode?await signInWithEmailAndPassword(auth,email,password):await createUserWithEmailAndPassword(auth,email,password);
   currentUser=cred.user;
-  const profile={name:$("customerName").value.trim(),phone:"+91"+$("customerPhone").value.trim(),block:selectedBlock,deliveryAddress:deliveryAddress||"Star Galaxy Apartments",deliveryArea:outsideDelivery?"Outside apartment":"Star Galaxy Apartments",email:currentUser.email,updatedAt:serverTimestamp()};
+  const profile={name:$("customerName").value.trim(),phone:"+91"+$("customerPhone").value.trim(),block:selectedBlock,deliveryAddress:deliveryAddress,email:currentUser.email,updatedAt:serverTimestamp()};
+  localStorage.setItem("prachiSavedAddress",deliveryAddress);
   await set(ref(db,`customers/${currentUser.uid}`),profile);
   message($("accountStatus"),"Account ready.",true);
   calculateTotal();step(4);
@@ -367,8 +362,9 @@ $("accountBtn").onclick=async()=>{
  }finally{btn.disabled=false;btn.textContent=signInMode?"SIGN IN & CONTINUE":"CREATE ACCOUNT & CONTINUE"}
 };
 
-function calculateTotal(){
- deliveryCharge=subtotal<300?20:0;
+async function calculateTotal(){
+ if(currentUser && !orderHistoryChecked) await checkOrderHistory();
+ deliveryCharge=hasPreviousOrders ? Object.values(cart).reduce((sum,item)=>sum+(Number(item.price)<149?20*Number(item.quantity||1):0),0) : 0;
  renderCouponBreakdown();
 }
 document.querySelectorAll(".payment").forEach(p=>p.onclick=()=>{if(p.classList.contains("off"))return;document.querySelectorAll(".payment").forEach(x=>{x.classList.remove("selected");x.querySelector("b").textContent="—"});p.classList.add("selected");p.querySelector("b").textContent="✓";paymentMethod=p.dataset.payment;calculateTotal()});
@@ -401,14 +397,16 @@ function buildPendingOrder(){
   customerName:name,
   phone,
   block:selectedBlock,
-  deliveryAddress:deliveryAddress||"Star Galaxy Apartments",
-  deliveryArea:outsideDelivery?"Outside apartment":"Star Galaxy Apartments",
+  deliveryAddress:deliveryAddress,
+  deliveryArea:"Custom delivery address",
   paymentMethod,
   bill:subtotal,
   discount:discountAmount,
   couponCode:appliedCouponCode||"",
   couponPercent:appliedCouponPercent||0,
   deliveryCharge,
+  packageHandlingCharge,
+  miscellaneousCharge,
   finalBill:finalCheckoutTotal(),
   food,
   customerEmail:currentUser?.email||"",
@@ -418,30 +416,28 @@ function buildPendingOrder(){
 
 $("confirmOrderBtn").onclick=async()=>{
  const btn=$("confirmOrderBtn");$("orderError").className="status";
+ if(currentUser && !orderHistoryChecked) await checkOrderHistory();
+ await calculateTotal();
  if(!storeLoaded||!storeIsOpen){$("closedOverlay").classList.add("show");return}
  if(!currentUser){step(3);return}
  const bad=unavailable();if(bad.length){message($("orderError"),"Some cart items are unavailable. Please return to the menu.");return}
 
- if(paymentMethod==="Online Payment"){
-  const pending=buildPendingOrder();
-  localStorage.setItem("prachiPendingOnlineOrder",JSON.stringify(pending));
-  window.location.href="onlinep.html";
-  return;
- }
+ if(paymentMethod==="Online Payment"){message($("orderError"),"Online payment is temporarily disabled. Select Cash on Delivery.");return;}
 
  btn.disabled=true;btn.textContent="PLACING ORDER...";
  const name=$("customerName").value.trim(),phone="+91"+$("customerPhone").value.trim();
  const food=Object.entries(cart).map(([foodName,item])=>({name:foodName,price:Number(item.price),quantity:Number(item.quantity),subtotal:Number(item.price)*Number(item.quantity)}));
- const order={ownerUid:currentUser.uid,customerName:name,phone,block:selectedBlock,deliveryAddress:deliveryAddress||"Star Galaxy Apartments",deliveryArea:outsideDelivery?"Outside apartment":"Star Galaxy Apartments",paymentMethod,bill:subtotal,discount:discountAmount,couponCode:appliedCouponCode||"",couponPercent:appliedCouponPercent||0,deliveryCharge,finalBill:finalCheckoutTotal(),food,customerEmail:currentUser.email||"",status:"Order received",createdAt:Date.now(),serverCreatedAt:serverTimestamp()};
+ const order={ownerUid:currentUser.uid,customerName:name,phone,block:selectedBlock,deliveryAddress:deliveryAddress,deliveryArea:"Custom delivery address",paymentMethod,bill:subtotal,discount:discountAmount,couponCode:appliedCouponCode||"",couponPercent:appliedCouponPercent||0,deliveryCharge,packageHandlingCharge,miscellaneousCharge,finalBill:finalCheckoutTotal(),food,customerEmail:currentUser.email||"",status:"Order received",createdAt:Date.now(),serverCreatedAt:serverTimestamp()};
  try{
   const orderRef=push(ref(db,"orders"));await set(orderRef,order);
   if(!orderRef.key)throw new Error("No order ID");
   await sendEmailOrderAlert(orderRef.key, { ...order, status: "Order received" });
   const saved={...order,orderId:orderRef.key};
-  localStorage.setItem("prachiLastOrder",JSON.stringify(saved));localStorage.setItem("prachiLastOrderId",orderRef.key);
-  localStorage.setItem("prachiProfile",JSON.stringify({ownerUid:currentUser.uid,name,phone,block:selectedBlock,email:currentUser.email||""}));
+  localStorage.setItem("prachiLastOrder",JSON.stringify(saved));localStorage.setItem("prachiLastOrderId",orderRef.key);localStorage.setItem("prachiHasOrdered","true");
+  localStorage.setItem("prachiProfile",JSON.stringify({ownerUid:currentUser.uid,name,phone,block:selectedBlock,email:currentUser.email||"",deliveryAddress}));
+  localStorage.setItem("prachiSavedAddress",deliveryAddress);
   $("successText").textContent=`Thank you ${escapeHtml(name)}. Your order has been received.`;
-  $("finalInfo").innerHTML=`<strong>ORDER ID</strong><br>${escapeHtml(orderRef.key)}<br><br><strong>CUSTOMER</strong><br>${escapeHtml(name)}<br>📱 ${escapeHtml(phone)}<br>📍 ${escapeHtml(deliveryAddress||("Star Galaxy Apartments, Block "+selectedBlock))}<br>💵 ${escapeHtml(paymentMethod)}<br>${appliedCouponCode?`🎟️ Coupon ${escapeHtml(appliedCouponCode)} (${appliedCouponPercent}% OFF)<br>💸 Discount ₹${discountAmount.toFixed(2)}<br>`:""}🚚 Delivery ${deliveryCharge?"₹"+deliveryCharge:"FREE"}<br>🧾 Final bill ₹${finalCheckoutTotal().toFixed(2)}`;
+  $("finalInfo").innerHTML=`<strong>ORDER ID</strong><br>${escapeHtml(orderRef.key)}<br><br><strong>CUSTOMER</strong><br>${escapeHtml(name)}<br>📱 ${escapeHtml(phone)}<br>📍 ${escapeHtml(deliveryAddress)}<br>💵 ${escapeHtml(paymentMethod)}<br>${appliedCouponCode?`🎟️ Coupon ${escapeHtml(appliedCouponCode)} (${appliedCouponPercent}% OFF)<br>💸 Discount ₹${discountAmount.toFixed(2)}<br>`:""}🚚 Delivery ${deliveryCharge?"₹"+deliveryCharge:"FREE"}<br>🧾 Final bill ₹${finalCheckoutTotal().toFixed(2)}`;
   $("successOverlay").classList.add("active");watchStatus(orderRef.key);
  }catch(e){console.error(e);message($("orderError"),"Order could not be saved. Please try again. Your order was NOT marked as placed.");}
  finally{btn.disabled=false;btn.textContent="PLACE ORDER"}
@@ -454,6 +450,8 @@ $("notificationBtn").onclick=async()=>{
  notificationEnabled=p==="granted";
 };
 $("homeBtn").onclick=()=>location.href="index.html";
+$("printBillBtn").onclick=()=>window.print();
+try{const saved=JSON.parse(localStorage.getItem("prachiProfile")||"null");const addr=localStorage.getItem("prachiSavedAddress")||(saved&&saved.deliveryAddress)||"";if(addr){$("deliveryAddressInput").value=addr;setConfirmedAddress(addr);}if(saved){$("customerName").value=saved.name||"";$("customerPhone").value=String(saved.phone||"").replace(/^\+91/,"").replace(/\D/g,"").slice(-10);}}catch(_){}
 
 summary();calculateTotal();
 </script>

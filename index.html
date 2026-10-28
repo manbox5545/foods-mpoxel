@@ -340,7 +340,7 @@ body::before{
   background:#ffe5e5;
 }
 
-.cart-breakdown{display:flex;flex-direction:column;gap:8px;text-align:left}.cart-breakdown>div{display:flex;justify-content:space-between;gap:16px}.cart-breakdown .cart-grand-total{border-top:1px solid rgba(128,128,128,.25);padding-top:8px;font-weight:800}.cart-breakdown .cart-grand-total span{font-size:1.05em}
+.cart-fee-note{margin-top:10px;font-size:11px;line-height:1.5;color:#777}.food-portion-choice{margin:14px 0;padding:12px;border:1px solid #ddd;border-radius:14px}.food-portion-buttons{display:flex;gap:8px;margin:8px 0}.food-portion-buttons button{flex:1;padding:10px;border:1px solid #ccc;border-radius:10px;background:#f5f5f5;color:#111;font-weight:800;cursor:pointer}.food-portion-buttons button.selected{background:#111;color:#fff;border-color:#111}.food-portion-choice small{color:#777;font-size:11px;line-height:1.4;display:block}.cart-breakdown{display:flex;flex-direction:column;gap:8px;text-align:left}.cart-breakdown>div{display:flex;justify-content:space-between;gap:16px}.cart-breakdown .cart-grand-total{border-top:1px solid rgba(128,128,128,.25);padding-top:8px;font-weight:800}.cart-breakdown .cart-grand-total span{font-size:1.05em}
 .cart-total{
   display:flex;
   justify-content:space-between;
@@ -534,6 +534,7 @@ body.dark .cart-item{
 body.dark .cart-price{
   color:#aaa;
 }
+body.dark .cart-fee-note{color:#bbb;}
 
 body.dark .cart-controls button{
   background:#333;
@@ -2505,6 +2506,47 @@ body.paper-zone-active .bottom-nav{
 .coupon-breakdown{margin-top:10px;display:grid;gap:7px;font-size:14px}.coupon-breakdown div{display:flex;justify-content:space-between}.coupon-breakdown .discount{color:#54d88a;font-weight:800}
 </style>
 
+
+<style>
+.account-settings-card{max-width:760px;margin:18px 0;padding:18px;border:1px solid #ddd;border-radius:18px;background:#f8f8f8;color:#111}
+.account-settings-card h3{font-size:18px;margin-bottom:8px}.account-settings-card p{font-size:13px;color:#555;margin:8px 0}
+.account-settings-card label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+.account-settings-card input,.account-settings-card textarea{display:block;width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;font:inherit;background:#fff;color:#111;resize:vertical}
+.account-settings-card button{margin-top:12px;border:0;border-radius:10px;background:#111;color:#fff;padding:12px 16px;font-weight:800;cursor:pointer;min-height:44px}
+#settingsAddressStatus,#complaintStatus{font-size:13px;margin-top:8px;overflow-wrap:anywhere}
+.ai-help-launch{position:fixed;right:18px;bottom:20px;z-index:10003;border:0;border-radius:999px;background:#111;color:#fff;padding:14px 18px;font-weight:800;box-shadow:0 8px 28px #0003;cursor:pointer}
+.ai-help-panel{position:fixed;right:16px;bottom:82px;z-index:10003;width:min(390px,calc(100vw - 28px));height:min(520px,70vh);display:none;flex-direction:column;background:#fff;color:#111;border:1px solid #ddd;border-radius:20px;box-shadow:0 18px 60px #0003;overflow:hidden}
+.ai-help-panel.open{display:flex}.ai-help-head{display:flex;align-items:center;justify-content:space-between;background:#111;color:#fff;padding:14px;font-weight:800}.ai-help-head button{background:transparent;color:#fff;border:0;font-size:24px}.ai-help-messages{padding:14px;overflow:auto;flex:1;font-size:14px;line-height:1.5}.ai-help-msg{padding:10px 12px;margin:0 0 10px;border-radius:13px;background:#f0f0f0;white-space:pre-wrap;overflow-wrap:anywhere}.ai-help-msg.user{background:#e8f2ff;margin-left:24px}.ai-help-form{display:flex;gap:8px;padding:10px;border-top:1px solid #eee}.ai-help-form input{flex:1;min-width:0;padding:11px;border:1px solid #ccc;border-radius:10px}.ai-help-form button{border:0;border-radius:10px;background:#111;color:#fff;padding:0 14px;font-weight:800}
+@media(max-width:600px){.settings-panel{overflow:auto;padding:22px 15px}.account-settings-card{padding:14px}.ai-help-launch{right:12px;bottom:12px}.ai-help-panel{right:8px;bottom:72px;height:min(70vh,560px)}}
+</style>
+
+<style>
+/* Fix: make the Settings screen independently scrollable on desktop and mobile. */
+.settings-overlay{
+  height:100vh;
+  height:100dvh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  align-items:flex-start;
+}
+.settings-panel{
+  height:auto;
+  min-height:100vh;
+  min-height:100dvh;
+  max-height:none;
+  overflow:visible;
+  flex:0 0 100%;
+  padding-bottom:calc(clamp(25px,5vw,55px) + env(safe-area-inset-bottom, 0px));
+}
+@media(max-width:600px){
+  .settings-overlay{overscroll-behavior-y:contain;}
+  .settings-panel{
+    padding-top:calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom:calc(36px + env(safe-area-inset-bottom, 0px));
+  }
+}
+</style>
 </head>
 
 <body>
@@ -2607,9 +2649,12 @@ body.paper-zone-active .bottom-nav{
     </div>
 
     <div class="cart-total cart-breakdown">
-      <div><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
-      <div><span>Delivery</span><span id="cartDelivery">₹0</span></div>
-      <div class="cart-grand-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+      <div><span>Food subtotal</span><span id="cartSubtotal">₹0</span></div>
+      <div><span>Delivery <small id="cartDeliveryNote">(first order free)</small></span><span id="cartDelivery">FREE</span></div>
+      <div><span>Package handling</span><span id="cartHandling">₹10</span></div>
+      <div><span>Miscellaneous</span><span id="cartMisc">₹10</span></div>
+      <div class="cart-grand-total"><span>Estimated total</span><span id="cartTotal">₹20</span></div>
+      <p class="cart-fee-note">First order: delivery is free. After that, ₹20 delivery is charged for each item priced below ₹149. ₹10 package handling + ₹10 miscellaneous charges apply to every order. Final charges are confirmed at checkout.</p>
     </div>
 
     <button class="buy-now" id="buyNowBtn" type="button">
@@ -2658,8 +2703,7 @@ body.paper-zone-active .bottom-nav{
     </div>
 
     <div class="delivery-note">
-      Delivery charge is free for the orrders more than 300.<br>
-      Orders under ₹300 with Cash on Delivery have a ₹20 delivery charge.
+      First order delivery is free. After that, delivery is ₹20 for each item priced below ₹149. Every order includes ₹10 package handling and ₹10 miscellaneous charges.
     </div>
 
     <button class="repeat-next" id="repeatNextBtn" type="button">NEXT</button>
@@ -2726,6 +2770,22 @@ body.paper-zone-active .bottom-nav{
   <div class="settings-panel">
     <button class="close-panel" id="closeSettingsBtn" type="button">×</button>
     <h2>SETTINGS</h2>
+    <section class="account-settings-card">
+      <h3>Saved delivery address</h3>
+      <label for="settingsAddress">Address for future orders</label>
+      <textarea id="settingsAddress" rows="3" maxlength="350" placeholder="Flat / house, street, locality, city, PIN code"></textarea>
+      <button id="saveSettingsAddress" type="button">SAVE ADDRESS</button><p id="settingsAddressStatus" role="status"></p>
+    </section>
+    <section class="account-settings-card">
+      <h3>Contact & complaints</h3><p>Provide all contact details so the team can follow up.</p>
+      <form id="complaintForm">
+        <label for="complaintName">Full name *</label><input id="complaintName" name="customer_name" required maxlength="80" autocomplete="name">
+        <label for="complaintPhone">Phone number *</label><input id="complaintPhone" name="customer_phone" required type="tel" inputmode="tel" maxlength="16" autocomplete="tel" placeholder="+91 9876543210">
+        <label for="complaintEmail">Email address *</label><input id="complaintEmail" name="customer_email" required type="email" autocomplete="email">
+        <label for="complaintText">Complaint or issue *</label><textarea id="complaintText" name="complaint_message" required rows="4" maxlength="3000" placeholder="Describe the issue, order ID if available, and what help you need."></textarea>
+        <button id="sendComplaintBtn" type="submit">SEND COMPLAINT</button><p id="complaintStatus" role="status"></p>
+      </form>
+    </section>
   </div>
 </div>
 
@@ -3110,6 +3170,14 @@ body.paper-zone-active .bottom-nav{
       <h2 id="foodDetailTitle"></h2>
       <p id="foodDetailDescription"></p>
 
+      <div class="food-portion-choice" id="foodPortionChoice" hidden>
+        <span class="food-detail-label">PORTION SIZE</span>
+        <div class="food-portion-buttons">
+          <button type="button" id="fullPlateBtn" class="selected">Full plate</button>
+          <button type="button" id="halfPlateBtn">Half plate</button>
+        </div>
+        <small>Half plate is available for selected curries, sabji, dal, rice and halwa items.</small>
+      </div>
       <div class="food-detail-order-row">
         <div>
           <span class="food-detail-label">QUANTITY</span>
@@ -3593,8 +3661,9 @@ const storeClosedBanner = document.getElementById("storeClosedBanner");
 const buyNowBtn = document.getElementById("buyNowBtn");
 
 
+function baseCartFoodName(name){ return String(name || "").replace(/\s*\(Half Plate\)$/i, ""); }
 function isMenuItemAvailable(name){
-  return menuAvailability[menuKey(name)] !== false;
+  return menuAvailability[menuKey(baseCartFoodName(name))] !== false;
 }
 
 function applyMenuAvailability(){
@@ -3737,6 +3806,8 @@ const foodDescriptions = {
 
 let selectedFoodItem = null;
 let selectedFoodQuantity = 1;
+let selectedPortion = "full";
+const halfPlateEligible = name => /paneer|sabji|bhujia|dal|chole|chana|rice|poha|halwa|kofta|gatte|bharta|karela|lauki|baigan|matar/i.test(name) && !/combo|\+|roti|paratha|litti|bhature/i.test(name);
 
 function foodImageForItem(item){
   return item.dataset.foodImage ||
@@ -3746,8 +3817,10 @@ function foodImageForItem(item){
 
 function updateFoodDetailTotal(){
   if(!selectedFoodItem) return;
-  const price = Number(selectedFoodItem.dataset.price) || 0;
+  const basePrice = Number(selectedFoodItem.dataset.price) || 0;
+  const price = selectedPortion === "half" ? Math.max(1, Math.round(basePrice / 2)) : basePrice;
   foodQtyValue.textContent = String(selectedFoodQuantity);
+  foodDetailPrice.textContent = `₹${price}${selectedPortion === "half" ? " · Half plate" : " · Full plate"}`;
   foodDetailTotal.textContent = `₹${price * selectedFoodQuantity}`;
 }
 
@@ -3765,6 +3838,12 @@ function openFoodDetail(item){
 
   selectedFoodItem = item;
   selectedFoodQuantity = 1;
+  selectedPortion = "full";
+  const canHalf = halfPlateEligible(name);
+  const portionChoice = document.getElementById("foodPortionChoice");
+  portionChoice.hidden = !canHalf;
+  document.getElementById("fullPlateBtn").classList.add("selected");
+  document.getElementById("halfPlateBtn").classList.remove("selected");
 
   const available = isMenuItemAvailable(name);
   const image = foodImageForItem(item);
@@ -3772,7 +3851,7 @@ function openFoodDetail(item){
   foodDetailImage.src = image;
   foodDetailImage.alt = name;
   foodDetailTitle.textContent = name;
-  foodDetailPrice.textContent = `₹${price}`;
+  foodDetailPrice.textContent = `₹${price} · Full plate`;
   foodDetailDescription.textContent =
     foodDescriptions[name] ||
     "A freshly prepared item from Mpoxel Foods.";
@@ -3796,6 +3875,20 @@ document.querySelector(".menu").addEventListener("click", (e) => {
   openFoodDetail(item);
 });
 
+document.getElementById("fullPlateBtn")?.addEventListener("click", () => {
+  selectedPortion = "full";
+  document.getElementById("fullPlateBtn").classList.add("selected");
+  document.getElementById("halfPlateBtn").classList.remove("selected");
+  updateFoodDetailTotal();
+});
+document.getElementById("halfPlateBtn")?.addEventListener("click", () => {
+  if(!selectedFoodItem || !halfPlateEligible(selectedFoodItem.dataset.name || "")) return;
+  selectedPortion = "half";
+  document.getElementById("halfPlateBtn").classList.add("selected");
+  document.getElementById("fullPlateBtn").classList.remove("selected");
+  updateFoodDetailTotal();
+});
+
 foodQtyMinus?.addEventListener("click", () => {
   selectedFoodQuantity = Math.max(1, selectedFoodQuantity - 1);
   updateFoodDetailTotal();
@@ -3810,17 +3903,16 @@ foodDetailOrderBtn?.addEventListener("click", () => {
   if(!selectedFoodItem) return;
 
   const name = selectedFoodItem.dataset.name;
-  const price = Number(selectedFoodItem.dataset.price);
+  const basePrice = Number(selectedFoodItem.dataset.price);
+  const price = selectedPortion === "half" ? Math.max(1, Math.round(basePrice / 2)) : basePrice;
+  const cartName = selectedPortion === "half" ? `${name} (Half Plate)` : name;
 
   if(!name || !Number.isFinite(price) || !isMenuItemAvailable(name)) return;
 
-  if(cart[name]){
-    cart[name].quantity += selectedFoodQuantity;
+  if(cart[cartName]){
+    cart[cartName].quantity += selectedFoodQuantity;
   }else{
-    cart[name] = {
-      price,
-      quantity:selectedFoodQuantity
-    };
+    cart[cartName] = { price, quantity:selectedFoodQuantity, baseName:name, portion:selectedPortion };
   }
 
   animateItemToCart(selectedFoodItem);
@@ -3967,13 +4059,18 @@ function updateCart() {
 
   /* Update subtotal + delivery + final total */
 
-  const delivery = deliveryFor(total);
+  const isFirstOrder = localStorage.getItem("prachiHasOrdered") !== "true";
+  const delivery = isFirstOrder ? 0 : Object.values(cart).reduce((sum,item) => sum + ((Number(item.price) < 149) ? 20 * Number(item.quantity || 1) : 0), 0);
+  const handling = 10, miscellaneous = 10;
   const cartSubtotal = document.getElementById("cartSubtotal");
   const cartDelivery = document.getElementById("cartDelivery");
-
+  const deliveryNote = document.getElementById("cartDeliveryNote");
   if (cartSubtotal) cartSubtotal.textContent = "₹" + total;
   if (cartDelivery) cartDelivery.textContent = delivery === 0 ? "FREE" : "₹" + delivery;
-  cartTotal.textContent = "₹" + (total + delivery);
+  if (deliveryNote) deliveryNote.textContent = isFirstOrder ? "(first order offer)" : "(₹20 per item under ₹149)";
+  document.getElementById("cartHandling").textContent = `₹${handling}`;
+  document.getElementById("cartMisc").textContent = `₹${miscellaneous}`;
+  cartTotal.textContent = "₹" + (total + delivery + handling + miscellaneous);
 
 
   /* =======================================================
@@ -4231,28 +4328,14 @@ buyNowBtn.onclick = () => {
   );
 
 
-  localStorage.setItem(
-    "prachiOrderTotal",
-    String(subtotal)
-  );
-
-  localStorage.setItem(
-    "prachiOrderDelivery",
-    String(deliveryFor(subtotal))
-  );
+  localStorage.setItem("prachiOrderTotal", String(subtotal));
+  localStorage.setItem("prachiOrderDelivery", String(localStorage.getItem("prachiHasOrdered") === "true" ? Object.values(cart).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0),0) : 0));
+  localStorage.setItem("prachiOrderHandling", "10");
+  localStorage.setItem("prachiOrderMisc", "10");
 
 
-  /* Existing profile */
-
-  if (localStorage.getItem("prachiProfile")) {
-
-    openRepeatCheckout();
-
-  } else {
-
-    window.location.href = "final.html";
-
-  }
+  /* Always use the same full checkout flow, including address confirmation and the bill. */
+  window.location.href = "final.html";
 
 };
 
@@ -4346,10 +4429,9 @@ function saveProfile(p) {
    DELIVERY
 ========================================================= */
 
-function deliveryFor(subtotal) {
-
-  return subtotal < 300 ? 20 : 0;
-
+function deliveryFor(subtotal, items = cart) {
+  if (localStorage.getItem("prachiHasOrdered") !== "true") return 0;
+  return Object.values(items).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0),0);
 }
 
 
@@ -4673,9 +4755,10 @@ function openRepeatCheckout() {
 
   // Use the latest Firebase menu prices for saved/repeat carts too.
   Object.keys(repeatCart).forEach((name) => {
-    const latestPrice = Number(menuPrices[menuKey(name)]);
+    const baseName = baseCartFoodName(name);
+    const latestPrice = Number(menuPrices[menuKey(baseName)]);
     if(Number.isFinite(latestPrice) && latestPrice > 0){
-      repeatCart[name].price = latestPrice;
+      repeatCart[name].price = /\(Half Plate\)$/i.test(name) ? Math.max(1, Math.round(latestPrice / 2)) : latestPrice;
     }
   });
 
@@ -4708,8 +4791,7 @@ repeatSubtotal =
     );
 
 
-  repeatDelivery =
-    deliveryFor(repeatSubtotal);
+  repeatDelivery = Object.values(repeatCart).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0), 0);
 
 
   document.getElementById(
@@ -4869,18 +4951,20 @@ repeatOnlinePaymentOption.onkeydown = (event) => {
 
 
 function repeatFinalTotal(){
-  return Math.max(0, repeatSubtotal - repeatDiscount) + repeatDelivery;
+  return Math.max(0, repeatSubtotal - repeatDiscount) + repeatDelivery + 10 + 10;
 }
 function renderRepeatCoupon(){
   const box=document.getElementById("repeatCouponBreakdown");
   if(!box)return;
   box.innerHTML=repeatCouponCode
-    ? `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div class="discount"><span>${escapeHtmlIndex(repeatCouponCode)} (${repeatCouponPercent}% OFF)</span><strong>-₹${repeatDiscount.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div>`
-    : `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div>`;
+    ? `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div class="discount"><span>${escapeHtmlIndex(repeatCouponCode)} (${repeatCouponPercent}% OFF)</span><strong>-₹${repeatDiscount.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div><div><span>Package handling</span><strong>₹10</strong></div><div><span>Miscellaneous</span><strong>₹10</strong></div>`
+    : `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div><div><span>Package handling</span><strong>₹10</strong></div><div><span>Miscellaneous</span><strong>₹10</strong></div>`;
   document.getElementById("repeatTotal").innerHTML=`
     <span>Subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
     ${repeatCouponCode?`<span>Discount (${repeatCouponPercent}%)</span><span class="discount">-₹${repeatDiscount.toFixed(2)}</span>`:""}
     <span>Delivery</span><span>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</span>
+    <span>Package handling</span><span>₹10</span>
+    <span>Miscellaneous</span><span>₹10</span>
     <strong><span>Total</span><span>₹${repeatFinalTotal().toFixed(2)}</span></strong>`;
   document.getElementById("repeatOnlineExpectedAmount").textContent=`₹${repeatFinalTotal().toFixed(2)}`;
 }
@@ -5059,6 +5143,8 @@ document.getElementById(
       couponPercent: repeatCouponPercent || 0,
 
       deliveryCharge: repeatDelivery,
+      packageHandlingCharge: 10,
+      miscellaneousCharge: 10,
 
       finalBill: finalBill,
 
@@ -5413,6 +5499,50 @@ if (heroVideo) {
 
   window.addEventListener("pagehide", () => heroVideo.pause());
 }
+</script>
+
+
+<button class="ai-help-launch" id="aiHelpLaunch" type="button" aria-expanded="false">Ask Food Assistant</button>
+<section class="ai-help-panel" id="aiHelpPanel" aria-label="Mpoxel Foods assistant">
+ <header class="ai-help-head"><span>Mpoxel Foods Assistant</span><button id="aiHelpClose" type="button" aria-label="Close assistant">×</button></header>
+ <div class="ai-help-messages" id="aiHelpMessages" aria-live="polite"><div class="ai-help-msg">Hi! I can guide you through ordering, coupons, delivery addresses, account settings, and complaints. What do you need help with?</div></div>
+ <form class="ai-help-form" id="aiHelpForm"><input id="aiHelpInput" maxlength="500" autocomplete="off" placeholder="Ask about orders or support…" aria-label="Ask the assistant" required><button type="submit">Send</button></form>
+</section>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const launch=$("aiHelpLaunch"),panel=$("aiHelpPanel"),messages=$("aiHelpMessages");
+ launch.addEventListener("click",()=>{panel.classList.toggle("open");launch.setAttribute("aria-expanded",String(panel.classList.contains("open")));if(panel.classList.contains("open"))$("aiHelpInput").focus()});
+ $("aiHelpClose").addEventListener("click",()=>{panel.classList.remove("open");launch.setAttribute("aria-expanded","false")});
+ function add(text,who){const el=document.createElement("div");el.className="ai-help-msg"+(who?" user":"");el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight}
+ function reply(q){const t=q.toLowerCase();
+  if(/complaint|problem|issue|support|refund|wrong|late/.test(t))return "Open Settings → Contact & complaints. Enter your name, phone number, email, and the issue, then choose Send Complaint. All contact fields are required. If the form cannot send, retry or use the business contact details provided by the site owner.";
+  if(/address|location|delivery/.test(t))return "Open Settings to save or update your delivery address. During checkout, confirm the full address before continuing. Include flat/house, street, locality, city, and PIN code.";
+  if(/coupon|discount|promo/.test(t))return "At checkout, enter your coupon in the Discount Coupon field and press Apply. The updated bill shows the discount and delivery charge before you place the order.";
+  if(/payment|online|cash|cod/.test(t))return "Online payment is temporarily disabled. Choose Cash on Delivery at checkout. The bill shows the final amount before you place the order.";
+  if(/order|cart|buy|food|menu/.test(t))return "Choose food from the menu and add it to your cart. Open the cart and continue to checkout, confirm your address, sign in or create an account if needed, review the coupon and bill, then place the order. Your order details are shown on the confirmation screen.";
+  if(/account|login|sign in|password/.test(t))return "Checkout will ask you to sign in or create an account if you are not already signed in. Use the email address you want associated with your orders.";
+  if(/hello|hi|hey/.test(t))return "Hello. I can help with ordering, delivery addresses, coupons, payment options, accounts, and complaints. Ask about one of these topics.";
+  return "I can guide you on this website’s food menu, cart, checkout, coupons, Cash on Delivery, saved addresses, account access, and complaints. For an issue that needs a person, open Settings → Contact & complaints and send your contact details with the message.";
+ }
+ $("aiHelpForm").addEventListener("submit",e=>{e.preventDefault();const input=$("aiHelpInput"),q=input.value.trim();if(!q)return;add(q,true);input.value="";add(reply(q),false)});
+ // Populate settings from the saved local profile without requiring a login to edit locally.
+ const address=$("settingsAddress"),addressStatus=$("settingsAddressStatus");
+ try{const profile=JSON.parse(localStorage.getItem("prachiProfile")||"null");address.value=localStorage.getItem("prachiSavedAddress")||(profile&&profile.deliveryAddress)||"";
+  if(profile){$("complaintName").value=profile.name||"";$("complaintPhone").value=profile.phone||"";$("complaintEmail").value=profile.email||"";}
+ }catch(_){}
+ $("saveSettingsAddress").addEventListener("click",()=>{const value=address.value.trim();if(value.length<8){addressStatus.textContent="Enter a complete address before saving.";return}localStorage.setItem("prachiSavedAddress",value);try{const p=JSON.parse(localStorage.getItem("prachiProfile")||"{}");p.deliveryAddress=value;localStorage.setItem("prachiProfile",JSON.stringify(p))}catch(_){}addressStatus.textContent="Address saved on this device. It will be prefilled at checkout.";});
+ // Keep settings forms in the active viewport on small screens.
+ const form=$("complaintForm");form.addEventListener("submit",async e=>{e.preventDefault();const status=$("complaintStatus"),btn=$("sendComplaintBtn");const name=$("complaintName").value.trim(),phone=$("complaintPhone").value.trim(),email=$("complaintEmail").value.trim(),complaint=$("complaintText").value.trim();
+  if(!name||!phone||!email||!complaint){status.textContent="Name, phone, email and complaint are all required.";return}
+  if(!window.emailjs){status.textContent="Complaint service did not load. Check your connection and try again.";return}
+  btn.disabled=true;btn.textContent="SENDING…";status.textContent="Sending your complaint…";
+  const params={order_id:"COMPLAINT-"+Date.now(),customer_name:name,customer_phone:phone,customer_block:"Support complaint",customer_address:localStorage.getItem("prachiSavedAddress")||"Not saved",order_type:"CUSTOMER COMPLAINT",items:complaint,subtotal:"N/A",delivery_charge:"N/A",total:"N/A",payment_method:"N/A",customer_email:email,order_status:"Complaint received — please contact the customer",complaint_message:complaint};
+  try{await window.emailjs.send("service_uvitnxr","template_oi3odsr",params);status.textContent="Complaint sent. Keep your phone and email available for follow-up.";status.style.color="#18743f";$("complaintText").value="";}
+  catch(err){console.error("Complaint email failed",err);status.textContent="Could not send the complaint. Please retry in a moment.";status.style.color="#b42318";}
+  finally{btn.disabled=false;btn.textContent="SEND COMPLAINT"}
+ });
+})();
 </script>
 
 </body>
