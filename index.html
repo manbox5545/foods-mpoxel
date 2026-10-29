@@ -2492,6 +2492,11 @@ body.paper-zone-active .bottom-nav{
 .custom-food-ad strong{display:block;font-size:clamp(15px,2.4vw,20px);font-weight:900}.custom-food-ad span{display:block;font-size:12px;margin-top:4px;line-height:1.4}.custom-food-ad button{flex:0 0 auto;border:0;border-radius:12px;background:#17120d;color:#fff;font-weight:900;padding:12px 15px;cursor:pointer}
 .custom-food-overlay{position:fixed;inset:0;z-index:10050;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:16px}.custom-food-overlay.show{display:flex}.custom-food-card{width:min(540px,100%);max-height:92vh;overflow:auto;background:#fff;color:#151515;border-radius:22px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.3)}.custom-food-card h2{font-size:25px;margin-bottom:6px}.custom-food-card p{font-size:13px;color:#555;line-height:1.5;margin-bottom:14px}.custom-food-card label{display:block;font-size:12px;font-weight:800;margin:12px 0 6px}.custom-food-card input,.custom-food-card textarea{width:100%;border:1px solid #d5d5d5;border-radius:11px;padding:12px;font:inherit;font-size:14px}.custom-food-card textarea{min-height:100px;resize:vertical}.custom-food-actions{display:flex;gap:9px;margin-top:14px}.custom-food-actions button{flex:1;border:0;border-radius:11px;padding:13px;font-weight:900;cursor:pointer}.custom-food-submit{background:#171717;color:#fff}.custom-food-cancel{background:#eee;color:#111}.custom-food-note{background:#fff5d9;border-radius:10px;padding:10px;font-size:12px;color:#6d4d00;margin-top:10px}.custom-food-status{font-size:12px;font-weight:700;margin-top:10px;min-height:16px}.custom-food-status.error{color:#b42318}.custom-food-status.success{color:#16803c}
 @media(max-width:520px){.custom-food-ad{align-items:flex-start;flex-direction:column}.custom-food-ad button{width:100%}.custom-food-card{padding:18px}}
+
+/* Timed admin-published WAVE announcement */
+.customer-wave{width:min(1100px,calc(100% - 24px));margin:14px auto 20px;padding:clamp(20px,4vw,32px);border:1px solid #efd8ad;border-radius:20px;background:linear-gradient(120deg,#fff8e9,#ffe6b8);color:#281d0b;box-shadow:0 12px 28px rgba(74,48,10,.10);animation:waveIn .45s ease-out both}
+.customer-wave[hidden]{display:none!important}.customer-wave-copy{max-width:850px;margin:auto}.customer-wave-kicker{font-size:10px;font-weight:900;letter-spacing:.15em;color:#87642c}.customer-wave h2{font-size:clamp(22px,4vw,32px);line-height:1.15;margin:10px 0 8px;letter-spacing:-.025em}.customer-wave p{font-size:15px;line-height:1.65;white-space:pre-wrap;margin:0;color:#59482d}.customer-wave a{display:inline-flex;margin-top:18px;padding:11px 17px;border-radius:11px;background:#201a12;color:white;text-decoration:none;font-weight:850;font-size:13px}.customer-wave a:hover{transform:translateY(-1px)}@keyframes waveIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.customer-wave{animation:none}}
+
 </style>
 
   <!-- EmailJS -->
@@ -2547,13 +2552,31 @@ body.paper-zone-active .bottom-nav{
   }
 }
 </style>
+<style>
+
+/* Mpoxel Foods theme-matched text selection */
+::selection {
+  background: rgba(205, 166, 92, 0.38);
+  color: #172033;
+  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
+}
+::-moz-selection {
+  background: rgba(205, 166, 92, 0.38);
+  color: #172033;
+  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
+}
+/* Selected text gets a subtle floating highlight for as long as it remains selected. */
+html {
+  --mpoxel-selection-glow: 0 3px 12px rgba(205, 166, 92, 0.16);
+}
+
+</style>
 </head>
 
 <body>
-<!-- CUSTOM FOOD FEATURE PROMO -->
-<section class="custom-food-ad" id="customFoodAd" aria-label="New custom food ordering feature">
-  <div><strong>NEW: Craving something not on the menu?</strong><span>Tell us what you want. We’ll confirm availability and price before preparing it.</span></div>
-  <button type="button" id="customFoodAdBtn">ORDER CUSTOM FOOD →</button>
+<!-- LIVE WAVE ANNOUNCEMENT SLOT -->
+<section class="customer-wave" id="customerWave" aria-live="polite" hidden>
+  <div class="customer-wave-copy"><span class="customer-wave-kicker">MPOXEL FOODS • ANNOUNCEMENT</span><h2 id="customerWaveHeading"></h2><p id="customerWaveParagraph"></p><a id="customerWaveButton" href="#" target="_blank" rel="noopener noreferrer" hidden></a></div>
 </section>
 <div class="custom-food-overlay" id="customFoodOverlay" role="dialog" aria-modal="true" aria-labelledby="customFoodTitle">
   <form class="custom-food-card" id="customFoodForm">
@@ -3291,6 +3314,12 @@ body.paper-zone-active .bottom-nav{
 
 <!-- ================= FOOTER ================= -->
 
+<!-- CUSTOM FOOD FEATURE PROMO -->
+<section class="custom-food-ad" id="customFoodAd" aria-label="New custom food ordering feature">
+  <div><strong>NEW: Craving something not on the menu?</strong><span>Tell us what you want. We’ll confirm availability and price before preparing it.</span></div>
+  <button type="button" id="customFoodAdBtn">ORDER CUSTOM FOOD →</button>
+</section>
+
 <footer class="footer">
 
   <h3>Mpoxel Foods</h3>
@@ -3557,6 +3586,39 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const prachiDb = getDatabase(firebaseApp);
+
+const customerWaveRef = ref(prachiDb, "waves/current");
+const customerWaveBox = document.getElementById("customerWave");
+const customerWaveHeading = document.getElementById("customerWaveHeading");
+const customerWaveParagraph = document.getElementById("customerWaveParagraph");
+const customerWaveButton = document.getElementById("customerWaveButton");
+let customerWaveExpiryTimer = null;
+onValue(customerWaveRef, snapshot => {
+  const wave = snapshot.val();
+  if (customerWaveExpiryTimer) clearTimeout(customerWaveExpiryTimer);
+  if (!wave?.heading || !wave?.paragraph || Number(wave.expiresAt || 0) <= Date.now()) {
+    customerWaveBox.hidden = true;
+    return;
+  }
+  customerWaveHeading.textContent = String(wave.heading).slice(0, 100);
+  customerWaveParagraph.textContent = String(wave.paragraph).slice(0, 600);
+  const url = String(wave.buttonUrl || "");
+  const label = String(wave.buttonLabel || "");
+  if (url && label && /^https?:\/\//i.test(url)) {
+    customerWaveButton.href = url;
+    customerWaveButton.textContent = label.slice(0, 40);
+    customerWaveButton.hidden = false;
+  } else {
+    customerWaveButton.removeAttribute("href");
+    customerWaveButton.textContent = "";
+    customerWaveButton.hidden = true;
+  }
+  customerWaveBox.hidden = false;
+  customerWaveExpiryTimer = setTimeout(() => {
+    customerWaveBox.hidden = true;
+  }, Math.max(0, Number(wave.expiresAt) - Date.now()));
+}, error => console.error("Wave announcement could not load:", error));
+
 const prachiAuth = getAuth(firebaseApp);
 let currentUser = null;
 const authReady = new Promise((resolve, reject) => {
@@ -5516,6 +5578,8 @@ if (heroVideo) {
  $("aiHelpClose").addEventListener("click",()=>{panel.classList.remove("open");launch.setAttribute("aria-expanded","false")});
  function add(text,who){const el=document.createElement("div");el.className="ai-help-msg"+(who?" user":"");el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight}
  function reply(q){const t=q.toLowerCase();
+  if(/terms|conditions|food process|processed|prepared|hygiene|allergen|allergy|ingredients|food safety|seller|kitchen/.test(t))return "Customer Terms & Food-Processing Disclosure: food is prepared, handled, and packaged by the assigned food business, not by the website unless explicitly stated. Preparation methods and facilities can vary by seller. Ask the seller about ingredients, allergies, dietary needs, and possible cross-contact before ordering. The terms also explain delivery, payments, cancellations, refunds, and how order details are shared with the fulfilling seller or delivery provider. Review the full customer terms on the account sign-in/create-account screen; acceptance is required to continue.";
+
   if(/complaint|problem|issue|support|refund|wrong|late/.test(t))return "Open Settings → Contact & complaints. Enter your name, phone number, email, and the issue, then choose Send Complaint. All contact fields are required. If the form cannot send, retry or use the business contact details provided by the site owner.";
   if(/address|location|delivery/.test(t))return "Open Settings to save or update your delivery address. During checkout, confirm the full address before continuing. Include flat/house, street, locality, city, and PIN code.";
   if(/coupon|discount|promo/.test(t))return "At checkout, enter your coupon in the Discount Coupon field and press Apply. The updated bill shows the discount and delivery charge before you place the order.";

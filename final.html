@@ -57,6 +57,25 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
 .coupon-breakdown .discount{color:#18864b;font-weight:800}
 </style>
 
+<style>
+
+/* Mpoxel Foods theme-matched text selection */
+::selection {
+  background: rgba(205, 166, 92, 0.38);
+  color: #172033;
+  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
+}
+::-moz-selection {
+  background: rgba(205, 166, 92, 0.38);
+  color: #172033;
+  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
+}
+/* Selected text gets a subtle floating highlight for as long as it remains selected. */
+html {
+  --mpoxel-selection-glow: 0 3px 12px rgba(205, 166, 92, 0.16);
+}
+
+</style>
 </head>
 <body>
 
@@ -101,7 +120,57 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
         <input id="email" type="email" autocomplete="email" placeholder="Email address">
         <input id="password" type="password" autocomplete="new-password" placeholder="Password (minimum 6 characters)">
       </div>
-<section class="terms-box" aria-labelledby="termsTitle"><h2 id="termsTitle">📄 MERCHANT TERMS OF SERVICE &amp; PARTNER AGREEMENT</h2><p><strong>Operating Brand:</strong> mPoxel-Foods<br><strong>Jurisdiction:</strong> Patna, Bihar, India<br><strong>Last Updated:</strong> October 2026</p><div class="terms-scroll" tabindex="0" role="region" aria-label="Terms and conditions; scroll to read the full agreement"><h3>1. NATURE OF SERVICE &amp; PLATFORM STATUS</h3><ul><li><strong>Technological Intermediary Only:</strong> mPoxel-Foods is strictly a technology platform that routes customer discovery and payment processing. It is not a restaurant, caterer, food preparer, or logistics operator.</li><li><strong>No FBO Liability:</strong> The restaurant acknowledges that mPoxel-Foods never takes possession of, handles, or inspects the food at any stage. All food preparation, legal compliance, and packaging are the exclusive duty of the restaurant.</li></ul><h3>2. DYNAMIC ROUTING &amp; MANDATORY FSSAI COMPLIANCE</h3><ul><li><strong>Dynamic Order Allocation:</strong> The restaurant acknowledges and agrees that the mPoxel-Foods platform utilizes a dynamic, post-payment order matching algorithm. A customer order is processed first, and the specific fulfilling restaurant is assigned dynamically immediately thereafter.</li><li><strong>Instant Digital Post-Order Disclosure:</strong> To satisfy transparency requirements, the platform will instantly transmit the fulfilling restaurant's <strong>Registered Business Name, Physical Address, and FSSAI License Number</strong> to the consumer via automated confirmation Email and/or SMS text message immediately upon order assignment.</li><li><strong>Restaurant Warranty:</strong> The restaurant warrants that it possesses a valid, active FSSAI License or Registration. The restaurant gives mPoxel-Foods explicit, unconditional authorization to publish and transmit its FSSAI number to customers via email/text.</li><li><strong>Failure to Comply:</strong> If the restaurant fails to maintain an active FSSAI license, or provides an invalid number to the platform, the restaurant shall be solely liable for any regulatory enforcement, fines, or legal actions initiated by the Food Safety and Standards Authority of India (FSSAI), completely keeping mPoxel-Foods harmless.</li></ul><h3>3. FLAT SUBSCRIPTION FEE &amp; INSTANT TRANSACTION ROUTING</h3><ul><li><strong>Flat Monthly Fee:</strong> The restaurant agrees to pay a fixed, flat monthly subscription fee to access mPoxel-Foods network routing services. This fee is non-refundable and is charged regardless of order volume.</li><li><strong>Instant Settlement Split:</strong> At the exact microsecond the customer completes payment on the platform, <strong>100% of the food order value is routed instantly and directly to the restaurant’s designated bank account or UPI ID</strong>.</li><li><strong>No Escrow/Holding:</strong> The restaurant explicitly acknowledges that mPoxel-Foods does not hold, clear, or escrow order funds. The restaurant takes immediate ownership of the revenue at checkout.</li></ul><h3>4. ABSOLUTE RISK &amp; DAMAGE ABSORPTION BY RESTAURANT</h3><ul><li><strong>Zero Cancellation Recourse:</strong> Because 100% of the order funds are cleared to the restaurant instantly at checkout, <strong>the restaurant assumes all financial risks for order cancellations</strong>. If a customer cancels an order after payment or preparation, the restaurant absorbs the loss completely.</li><li><strong>Transit Damage Risk:</strong> Whether the delivery is executed via independent third-party APIs (e.g., Ola Fleet) or the restaurant’s own self-managed riders, <strong>any and all food spillage, transit damage, temperature drops, or delivery delays are 100% absorbed by the restaurant</strong>.</li><li><strong>No Platform Chargebacks for Logistics:</strong> The platform will under no circumstances reimburse the restaurant for food destroyed or lost in transit by third-party delivery personnel or self-delivery staff.</li></ul><h3>5. FULL HYGIENE, QUALITY, AND LEGAL INDEMNIFICATION</h3><ul><li><strong>Absolute Product Liability:</strong> The restaurant assumes sole liability for food safety, hygiene, proper cooking, foreign objects, poisoning, spoilage, mislabeling, or failure to disclose allergens.</li><li><strong>Defensive Indemnity:</strong> The restaurant agrees to indemnify, defend, and hold completely harmless mPoxel-Foods, its directors, and employees against any legal notices, consumer court complaints, health department penalties, police actions, or monetary claims arising from foodborne illness or violation of the Food Safety and Standards Act.</li><li><strong>Legal Cost Recovery:</strong> If mPoxel-Foods is dragged into a consumer court dispute regarding food quality, the restaurant agrees to pay all legal, attorney, and administrative costs incurred by mPoxel-Foods.</li></ul><h3>6. ABSOLUTE PLATFORM DISCRETION FOR CUSTOMER REFUNDS</h3><ul><li><strong>Refund Authority:</strong> If a customer raises a valid complaint (e.g., missing items, incorrect items, contaminated food), mPoxel-Foods maintains the absolute and final right to issue a refund or coupon to the consumer.</li><li><strong>Direct Clawback Debt:</strong> Since the order funds were already sent to the restaurant instantly at checkout, any customer refund issued by the platform constitutes a <strong>direct debt</strong> owed by the restaurant to mPoxel-Foods. The platform is legally authorized to recover these funds by adding them to the next monthly subscription bill, sending a direct UPI payment collect request, or temporarily suspending platform routing access until the debt is cleared.</li></ul><h3>7. GOVERNING LAW AND JURISDICTION</h3><p>This Agreement is governed by the laws of India. Any unresolved disputes, collection claims, or legal actions shall be initiated and maintained exclusively in the competent courts located in <strong>Patna, Bihar, India</strong>.</p></div></section><label class="terms-accept" for="termsAcceptedCustomer"><input id="termsAcceptedCustomer" type="checkbox"><span>I have read and agree to the full Terms of Service &amp; Partner Agreement above. Acceptance is required to create an account or sign in.</span></label><p class="terms-required" id="termsRequiredCustomer">Please review the agreement and check the box to continue.</p>
+<section class="terms-box" aria-labelledby="termsTitle">
+<h2 id="termsTitle">📄 CUSTOMER TERMS &amp; FOOD-PROCESSING DISCLOSURE</h2>
+<p><strong>Operating Brand:</strong> mPoxel-Foods<br><strong>Jurisdiction:</strong> India<br><strong>Last Updated:</strong> October 2026</p>
+<div class="terms-scroll" tabindex="0" role="region" aria-label="Customer terms and food processing information; scroll to read the full terms">
+<h3>1. HOW YOUR FOOD ORDER IS PROCESSED</h3>
+<ul>
+<li><strong>Order handling:</strong> mPoxel-Foods provides an online platform for browsing food, submitting orders, and sharing order details with the food business that fulfils the order. The food is prepared by the assigned restaurant, kitchen, or food seller—not by the website itself unless explicitly stated.</li>
+<li><strong>Order assignment:</strong> Depending on availability and the platform's order-routing process, the fulfilling food business may be assigned when the order is processed. Where the seller is assigned after the order is submitted, the seller's available business details and food-safety registration information will be shared with you through the order confirmation when those details are provided and available.</li>
+<li><strong>Preparation and packaging:</strong> The food business is responsible for cooking, handling, hygiene, packaging, ingredients, and the accuracy of the food supplied. Preparation methods and facilities can differ by seller.</li>
+</ul>
+<h3>2. FOOD SAFETY, HYGIENE &amp; ALLERGENS</h3>
+<ul>
+<li>Food is prepared and packed by the fulfilling food business. mPoxel-Foods cannot independently guarantee every preparation step or inspect every meal before dispatch.</li>
+<li>Tell the food business about allergies or dietary requirements before ordering. Do not assume an item is allergen-free or that cross-contact can be prevented unless the seller confirms this directly.</li>
+<li>Review item descriptions and any ingredient or dietary information shown. If information is missing or unclear, contact the seller before ordering. Do not consume food if its packaging appears tampered with or the food appears unsafe; contact customer support promptly.</li>
+<li>Food businesses are responsible for complying with applicable food-safety requirements, including maintaining any required licence or registration. Seller details are shared when available.</li>
+</ul>
+<h3>3. AVAILABILITY, PRICE &amp; ORDER CONFIRMATION</h3>
+<ul>
+<li>Menu items and availability may change. An order request is subject to confirmation and the seller's ability to fulfil it.</li>
+<li>Review the cart, delivery address, coupon, delivery charges, packaging/handling charges, and final bill before placing the order. The amount shown at final confirmation is the amount applicable to that order.</li>
+<li>Do not treat an order as confirmed until the website displays an order confirmation. If an item is unavailable or the order cannot be fulfilled, contact support for the next steps.</li>
+</ul>
+<h3>4. DELIVERY &amp; HANDOVER</h3>
+<ul>
+<li>Delivery may be carried out by the food business, its delivery person, or a third-party delivery provider, depending on the order. Delivery estimates can change due to traffic, weather, building access, or other circumstances.</li>
+<li>Provide a correct phone number and complete address, and follow the stated handover instructions. If the website says the package will be left with reception, collect it from reception as instructed.</li>
+<li>Check the package and items when you receive them. Report missing, incorrect, damaged, or delayed orders through the available support/complaint option as soon as reasonably possible.</li>
+</ul>
+<h3>5. PAYMENT, CANCELLATIONS &amp; REFUNDS</h3>
+<ul>
+<li>The available payment methods are those displayed during checkout. If online payment is disabled, use the enabled option shown on the checkout screen.</li>
+<li>Once an order is accepted or preparation has started, cancellation may not always be possible. Contact support promptly to request help; a cancellation or refund is assessed based on the order status and applicable policy.</li>
+<li>If an order is incorrect, incomplete, damaged, or otherwise problematic, submit a complaint with the order details. Refunds, replacements, or coupons are subject to review and the applicable policy; they are not guaranteed in every case.</li>
+</ul>
+<h3>6. CUSTOMER INFORMATION &amp; ACCOUNT</h3>
+<ul>
+<li>Your contact details, delivery address, and order information are used to manage your account, process and deliver orders, send order updates, and respond to support requests.</li>
+<li>Keep your account credentials private and provide accurate information. You can update saved delivery details using the available settings.</li>
+<li>Order fulfilment may require sharing relevant order and delivery details with the assigned food business and delivery provider. Only provide information needed to complete your order.</li>
+</ul>
+<h3>7. PLATFORM ROLE &amp; CUSTOMER SUPPORT</h3>
+<ul>
+<li>mPoxel-Foods helps customers discover food and submit orders to food businesses. Unless a page explicitly says otherwise, it does not itself cook the food.</li>
+<li>Questions about ingredients, preparation, allergens, or special requests should be confirmed with the food business. For order, delivery, billing, or service complaints, use the website's Contact &amp; Complaints option.</li>
+<li>Nothing in these terms removes any rights you may have under applicable Indian consumer-protection or food-safety law.</li>
+</ul>
+<h3>8. ACCEPTANCE</h3>
+<p>By selecting the acceptance checkbox, you confirm that you have read these customer terms and the food-processing disclosure. If you do not agree, do not continue to create an account or sign in through this checkout flow.</p>
+</div>
+</section><label class="terms-accept" for="termsAcceptedCustomer"><input id="termsAcceptedCustomer" type="checkbox"><span>I have read and agree to the Customer Terms &amp; Food-Processing Disclosure above. Acceptance is required to create an account or sign in.</span></label><p class="terms-required" id="termsRequiredCustomer">Please review the agreement and check the box to continue.</p>
       <div class="account-note">Already have an account? <button class="switch" id="accountSwitch">Sign in</button></div>
       <div class="status" id="accountStatus"></div>
     </div>
