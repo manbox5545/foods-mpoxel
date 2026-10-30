@@ -27,8 +27,10 @@ body{
 }
 
 .login{
-  width:min(420px,100%);
-  background:rgba(255,255,255,.96);
+  width:min(560px,100%);
+  max-height:94vh;
+  overflow-y:auto;
+  background:rgba(255,255,255,.98);
   padding:30px;
   border-radius:24px;
   box-shadow:0 25px 80px rgba(0,0,0,.45);
@@ -75,9 +77,9 @@ button:disabled{
   line-height:1.5;
 }
 
-.terms-box{margin:18px 0;padding:16px;border:1px solid #d9d9d9;border-radius:16px;background:#f8f8f8;color:#171717}.terms-box h2{font-size:17px;line-height:1.35;margin-bottom:8px}.terms-box>p{font-size:12px;line-height:1.5;color:#555;margin:0 0 12px}.terms-scroll{height:230px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ddd;border-radius:12px;background:#fff;padding:13px;line-height:1.5;font-size:12px}.terms-scroll h3{font-size:12px;margin:10px 0 5px}.terms-scroll h3:first-child{margin-top:0}.terms-scroll ul{padding-left:19px}.terms-scroll li{margin:0 0 8px}.terms-scroll p{margin:5px 0}.terms-accept{display:flex;align-items:flex-start;gap:10px;margin:13px 0 4px;font-size:13px;font-weight:700;line-height:1.45;color:inherit}.terms-accept input{width:18px;height:18px;flex:0 0 18px;margin-top:1px;accent-color:#111}.terms-accept a{color:inherit;text-decoration:underline}.terms-required{font-size:11px;color:#b42318;margin-top:5px}.terms-box button:disabled{opacity:.45;cursor:not-allowed}
+.terms-box{margin:18px 0;padding:20px;border:1px solid #e3e0d8;border-radius:20px;background:linear-gradient(145deg,#fff,#f5f3ef);color:#171717;box-shadow:0 12px 28px rgba(0,0,0,.07)}.terms-box h2{font-size:18px;line-height:1.35;margin-bottom:8px;letter-spacing:.2px}.terms-box>p{font-size:12px;line-height:1.5;color:#555;margin:0 0 12px}.terms-scroll{height:250px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ddd;border-radius:12px;background:#fff;padding:13px;line-height:1.5;font-size:12px}.terms-scroll h3{font-size:12px;margin:10px 0 5px}.terms-scroll h3:first-child{margin-top:0}.terms-scroll ul{padding-left:19px}.terms-scroll li{margin:0 0 8px}.terms-scroll p{margin:5px 0}.terms-accept{display:flex;align-items:flex-start;gap:10px;margin:13px 0 4px;font-size:13px;font-weight:700;line-height:1.45;color:inherit}.terms-accept input{width:18px;height:18px;flex:0 0 18px;margin-top:1px;accent-color:#111}.terms-accept a{color:inherit;text-decoration:underline}.terms-required{font-size:11px;color:#b42318;margin-top:5px}.terms-box button:disabled{opacity:.45;cursor:not-allowed}.agree-button{margin:10px 0 16px;background:linear-gradient(135deg,#171717,#454545);letter-spacing:.5px}.agree-button:disabled{opacity:.42;cursor:not-allowed}.login{scrollbar-width:thin}
 
-.terms-box{max-width:100%;}.terms-scroll{height:190px}.terms-accept{color:#111}.terms-box h2{font-family:Arial,sans-serif;letter-spacing:0}
+.terms-box{max-width:100%;}.terms-scroll{height:250px}.terms-accept{color:#111}.terms-box h2{font-family:Arial,sans-serif;letter-spacing:0}
 </style>
 <style>
 
@@ -124,7 +126,10 @@ html {
       required
     >
 
-<section class="terms-box" aria-labelledby="termsTitle"><h2 id="termsTitle">📄 MERCHANT TERMS OF SERVICE &amp; PARTNER AGREEMENT</h2><p><strong>Operating Brand:</strong> mPoxel-Foods<br><strong>Jurisdiction:</strong> Patna, Bihar, India<br><strong>Last Updated:</strong> October 2026</p><div class="terms-scroll" tabindex="0" role="region" aria-label="Terms and conditions; scroll to read the full agreement"><h3>1. NATURE OF SERVICE &amp; PLATFORM STATUS</h3><ul><li><strong>Technological Intermediary Only:</strong> mPoxel-Foods is strictly a technology platform that routes customer discovery and payment processing. It is not a restaurant, caterer, food preparer, or logistics operator.</li><li><strong>No FBO Liability:</strong> The restaurant acknowledges that mPoxel-Foods never takes possession of, handles, or inspects the food at any stage. All food preparation, legal compliance, and packaging are the exclusive duty of the restaurant.</li></ul><h3>2. DYNAMIC ROUTING &amp; MANDATORY FSSAI COMPLIANCE</h3><ul><li><strong>Dynamic Order Allocation:</strong> The restaurant acknowledges and agrees that the mPoxel-Foods platform utilizes a dynamic, post-payment order matching algorithm. A customer order is processed first, and the specific fulfilling restaurant is assigned dynamically immediately thereafter.</li><li><strong>Instant Digital Post-Order Disclosure:</strong> To satisfy transparency requirements, the platform will instantly transmit the fulfilling restaurant's <strong>Registered Business Name, Physical Address, and FSSAI License Number</strong> to the consumer via automated confirmation Email and/or SMS text message immediately upon order assignment.</li><li><strong>Restaurant Warranty:</strong> The restaurant warrants that it possesses a valid, active FSSAI License or Registration. The restaurant gives mPoxel-Foods explicit, unconditional authorization to publish and transmit its FSSAI number to customers via email/text.</li><li><strong>Failure to Comply:</strong> If the restaurant fails to maintain an active FSSAI license, or provides an invalid number to the platform, the restaurant shall be solely liable for any regulatory enforcement, fines, or legal actions initiated by the Food Safety and Standards Authority of India (FSSAI), completely keeping mPoxel-Foods harmless.</li></ul><h3>3. FLAT SUBSCRIPTION FEE &amp; INSTANT TRANSACTION ROUTING</h3><ul><li><strong>Flat Monthly Fee:</strong> The restaurant agrees to pay a fixed, flat monthly subscription fee to access mPoxel-Foods network routing services. This fee is non-refundable and is charged regardless of order volume.</li><li><strong>Instant Settlement Split:</strong> At the exact microsecond the customer completes payment on the platform, <strong>100% of the food order value is routed instantly and directly to the restaurant’s designated bank account or UPI ID</strong>.</li><li><strong>No Escrow/Holding:</strong> The restaurant explicitly acknowledges that mPoxel-Foods does not hold, clear, or escrow order funds. The restaurant takes immediate ownership of the revenue at checkout.</li></ul><h3>4. ABSOLUTE RISK &amp; DAMAGE ABSORPTION BY RESTAURANT</h3><ul><li><strong>Zero Cancellation Recourse:</strong> Because 100% of the order funds are cleared to the restaurant instantly at checkout, <strong>the restaurant assumes all financial risks for order cancellations</strong>. If a customer cancels an order after payment or preparation, the restaurant absorbs the loss completely.</li><li><strong>Transit Damage Risk:</strong> Whether the delivery is executed via independent third-party APIs (e.g., Ola Fleet) or the restaurant’s own self-managed riders, <strong>any and all food spillage, transit damage, temperature drops, or delivery delays are 100% absorbed by the restaurant</strong>.</li><li><strong>No Platform Chargebacks for Logistics:</strong> The platform will under no circumstances reimburse the restaurant for food destroyed or lost in transit by third-party delivery personnel or self-delivery staff.</li></ul><h3>5. FULL HYGIENE, QUALITY, AND LEGAL INDEMNIFICATION</h3><ul><li><strong>Absolute Product Liability:</strong> The restaurant assumes sole liability for food safety, hygiene, proper cooking, foreign objects, poisoning, spoilage, mislabeling, or failure to disclose allergens.</li><li><strong>Defensive Indemnity:</strong> The restaurant agrees to indemnify, defend, and hold completely harmless mPoxel-Foods, its directors, and employees against any legal notices, consumer court complaints, health department penalties, police actions, or monetary claims arising from foodborne illness or violation of the Food Safety and Standards Act.</li><li><strong>Legal Cost Recovery:</strong> If mPoxel-Foods is dragged into a consumer court dispute regarding food quality, the restaurant agrees to pay all legal, attorney, and administrative costs incurred by mPoxel-Foods.</li></ul><h3>6. ABSOLUTE PLATFORM DISCRETION FOR CUSTOMER REFUNDS</h3><ul><li><strong>Refund Authority:</strong> If a customer raises a valid complaint (e.g., missing items, incorrect items, contaminated food), mPoxel-Foods maintains the absolute and final right to issue a refund or coupon to the consumer.</li><li><strong>Direct Clawback Debt:</strong> Since the order funds were already sent to the restaurant instantly at checkout, any customer refund issued by the platform constitutes a <strong>direct debt</strong> owed by the restaurant to mPoxel-Foods. The platform is legally authorized to recover these funds by adding them to the next monthly subscription bill, sending a direct UPI payment collect request, or temporarily suspending platform routing access until the debt is cleared.</li></ul><h3>7. GOVERNING LAW AND JURISDICTION</h3><p>This Agreement is governed by the laws of India. Any unresolved disputes, collection claims, or legal actions shall be initiated and maintained exclusively in the competent courts located in <strong>Patna, Bihar, India</strong>.</p></div></section><label class="terms-accept" for="termsAcceptedMerchant"><input id="termsAcceptedMerchant" type="checkbox"><span>I have read and agree to the full Terms of Service &amp; Partner Agreement above. Acceptance is required to log in.</span></label><p class="terms-required" id="termsRequiredMerchant">Please review the agreement and check the box to continue.</p>
+<section class="terms-box" aria-labelledby="termsTitle"><h2 id="termsTitle">📄 MERCHANT TERMS OF SERVICE &amp; PARTNER AGREEMENT</h2><p><strong>Operating Brand:</strong> mPoxel-Foods<br><strong>Jurisdiction:</strong> Patna, Bihar, India<br><strong>Last Updated:</strong> October 2026</p><div class="terms-scroll" tabindex="0" role="region" aria-label="Terms and conditions; scroll to read the full agreement"><h3>1. NATURE OF SERVICE &amp; PLATFORM STATUS</h3><ul><li><strong>Technological Intermediary Only:</strong> mPoxel-Foods is strictly a technology platform that routes customer discovery and payment processing. It is not a restaurant, caterer, food preparer, or logistics operator.</li><li><strong>No FBO Liability:</strong> The restaurant acknowledges that mPoxel-Foods never takes possession of, handles, or inspects the food at any stage. All food preparation, legal compliance, and packaging are the exclusive duty of the restaurant.</li></ul><h3>2. DYNAMIC ROUTING &amp; MANDATORY FSSAI COMPLIANCE</h3><ul><li><strong>Dynamic Order Allocation:</strong> The restaurant acknowledges and agrees that the mPoxel-Foods platform utilizes a dynamic, post-payment order matching algorithm. A customer order is processed first, and the specific fulfilling restaurant is assigned dynamically immediately thereafter.</li><li><strong>Instant Digital Post-Order Disclosure:</strong> To satisfy transparency requirements, the platform will instantly transmit the fulfilling restaurant's <strong>Registered Business Name, Physical Address, and FSSAI License Number</strong> to the consumer via automated confirmation Email and/or SMS text message immediately upon order assignment.</li><li><strong>Restaurant Warranty:</strong> The restaurant warrants that it possesses a valid, active FSSAI License or Registration. The restaurant gives mPoxel-Foods explicit, unconditional authorization to publish and transmit its FSSAI number to customers via email/text.</li><li><strong>Failure to Comply:</strong> If the restaurant fails to maintain an active FSSAI license, or provides an invalid number to the platform, the restaurant shall be solely liable for any regulatory enforcement, fines, or legal actions initiated by the Food Safety and Standards Authority of India (FSSAI), completely keeping mPoxel-Foods harmless.</li></ul><h3>3. FLAT SUBSCRIPTION FEE &amp; INSTANT TRANSACTION ROUTING</h3><ul><li><strong>Flat Monthly Fee:</strong> The restaurant agrees to pay a fixed, flat monthly subscription fee to access mPoxel-Foods network routing services. This fee is non-refundable and is charged regardless of order volume.</li><li><strong>Instant Settlement Split:</strong> At the exact microsecond the customer completes payment on the platform, <strong>100% of the food order value is routed instantly and directly to the restaurant’s designated bank account or UPI ID</strong>.</li><li><strong>No Escrow/Holding:</strong> The restaurant explicitly acknowledges that mPoxel-Foods does not hold, clear, or escrow order funds. The restaurant takes immediate ownership of the revenue at checkout.</li></ul><h3>4. ABSOLUTE RISK &amp; DAMAGE ABSORPTION BY RESTAURANT</h3><ul><li><strong>Zero Cancellation Recourse:</strong> Because 100% of the order funds are cleared to the restaurant instantly at checkout, <strong>the restaurant assumes all financial risks for order cancellations</strong>. If a customer cancels an order after payment or preparation, the restaurant absorbs the loss completely.</li><li><strong>Transit Damage Risk:</strong> Whether the delivery is executed via independent third-party APIs (e.g., Ola Fleet) or the restaurant’s own self-managed riders, <strong>any and all food spillage, transit damage, temperature drops, or delivery delays are 100% absorbed by the restaurant</strong>.</li><li><strong>No Platform Chargebacks for Logistics:</strong> The platform will under no circumstances reimburse the restaurant for food destroyed or lost in transit by third-party delivery personnel or self-delivery staff.</li></ul><h3>5. FULL HYGIENE, QUALITY, AND LEGAL INDEMNIFICATION</h3><ul><li><strong>Absolute Product Liability:</strong> The restaurant assumes sole liability for food safety, hygiene, proper cooking, foreign objects, poisoning, spoilage, mislabeling, or failure to disclose allergens.</li><li><strong>Defensive Indemnity:</strong> The restaurant agrees to indemnify, defend, and hold completely harmless mPoxel-Foods, its directors, and employees against any legal notices, consumer court complaints, health department penalties, police actions, or monetary claims arising from foodborne illness or violation of the Food Safety and Standards Act.</li><li><strong>Legal Cost Recovery:</strong> If mPoxel-Foods is dragged into a consumer court dispute regarding food quality, the restaurant agrees to pay all legal, attorney, and administrative costs incurred by mPoxel-Foods.</li></ul><h3>6. ABSOLUTE PLATFORM DISCRETION FOR CUSTOMER REFUNDS</h3><ul><li><strong>Refund Authority:</strong> If a customer raises a valid complaint (e.g., missing items, incorrect items, contaminated food), mPoxel-Foods maintains the absolute and final right to issue a refund or coupon to the consumer.</li><li><strong>Direct Clawback Debt:</strong> Since the order funds were already sent to the restaurant instantly at checkout, any customer refund issued by the platform constitutes a <strong>direct debt</strong> owed by the restaurant to mPoxel-Foods. The platform is legally authorized to recover these funds by adding them to the next monthly subscription bill, sending a direct UPI payment collect request, or temporarily suspending platform routing access until the debt is cleared.</li></ul><h3>7. GOVERNING LAW AND JURISDICTION</h3><p>This Agreement is governed by the laws of India. Any unresolved disputes, collection claims, or legal actions shall be initiated and maintained exclusively in the competent courts located in <strong>Patna, Bihar, India</strong>.</p></div></section>
+<label class="terms-accept" for="termsAcceptedMerchant"><input id="termsAcceptedMerchant" type="checkbox"><span>I have read and agree to the full Merchant Terms of Service &amp; Partner Agreement above.</span></label>
+<p class="terms-required" id="termsRequiredMerchant">Read the agreement, tick the box, then press I AGREE to unlock merchant login.</p>
+<button id="merchantAgreeButton" class="agree-button" type="button" disabled>I AGREE &amp; CONTINUE</button>
     <button id="loginButton" type="submit" disabled>
       LOGIN
     </button>
@@ -179,7 +184,32 @@ const password = document.getElementById("password");
 const button = document.getElementById("loginButton");
 const termsCheckbox = document.getElementById("termsAcceptedMerchant");
 const termsRequired = document.getElementById("termsRequiredMerchant");
-termsCheckbox.addEventListener("change", () => { button.disabled = !termsCheckbox.checked; termsRequired.hidden = termsCheckbox.checked; });
+const agreeButton = document.getElementById("merchantAgreeButton");
+let merchantTermsAcceptedThisVisit = false;
+let pendingSignedInUser = null;
+button.disabled = true;
+agreeButton.disabled = true;
+termsCheckbox.addEventListener("change", () => {
+  agreeButton.disabled = !termsCheckbox.checked;
+  termsRequired.hidden = false;
+});
+async function continueAfterMerchantAgreement(user) {
+  if (!user || !merchantTermsAcceptedThisVisit) return;
+  try {
+    const token = await user.getIdTokenResult(true);
+    if (token.claims.admin === true) location.href = "secret-controller.html";
+    else error.textContent = "This account is not an administrator.";
+  } catch (err) { console.error(err); error.textContent = "Could not verify this account. Please try again."; }
+}
+agreeButton.addEventListener("click", async () => {
+  if (!termsCheckbox.checked) return;
+  merchantTermsAcceptedThisVisit = true;
+  button.disabled = false;
+  agreeButton.textContent = "✓ AGREEMENT ACCEPTED";
+  agreeButton.disabled = true;
+  termsRequired.textContent = "Agreement accepted for this visit. Merchant login is now unlocked.";
+  await continueAfterMerchantAgreement(pendingSignedInUser);
+});
 
 const error = document.getElementById("error");
 
@@ -190,31 +220,9 @@ const error = document.getElementById("error");
 */
 
 onAuthStateChanged(auth, async user => {
-
-  if(!user) return;
-
-  try{
-
-    const token =
-      await user.getIdTokenResult(true);
-
-    if(token.claims.admin === true){
-
-      location.href = "secret-controller.html";
-
-    }else{
-
-      error.textContent =
-        "This account is not an administrator.";
-
-    }
-
-  }catch(err){
-
-    console.error(err);
-
-  }
-
+  pendingSignedInUser = user;
+  if (!user || !merchantTermsAcceptedThisVisit) return;
+  await continueAfterMerchantAgreement(user);
 });
 
 
@@ -222,8 +230,8 @@ form.addEventListener("submit", async event => {
 
   event.preventDefault();
 
-  if (!termsCheckbox.checked) {
-    error.textContent = "You must accept the Terms of Service before logging in.";
+  if (!merchantTermsAcceptedThisVisit) {
+    error.textContent = "Read the agreement and press I AGREE before logging in.";
     termsCheckbox.focus();
     return;
   }
@@ -258,7 +266,7 @@ form.addEventListener("submit", async event => {
       error.textContent =
         "Login succeeded, but this account is not an admin.";
 
-      button.disabled = !termsCheckbox.checked;
+      button.disabled = !merchantTermsAcceptedThisVisit;
       button.textContent = "LOGIN";
 
       return;
@@ -275,7 +283,7 @@ form.addEventListener("submit", async event => {
     error.textContent =
       "Login failed: " + err.message;
 
-    button.disabled = false;
+    button.disabled = !merchantTermsAcceptedThisVisit;
 
     button.textContent = "LOGIN";
 

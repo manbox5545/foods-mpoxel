@@ -37,7 +37,7 @@ label{display:block;font-weight:800;font-size:13px;margin:0 0 7px}.field{margin-
 @media print{body{background:#fff;padding:0}.checkout,.progress,.step,.success-overlay{box-shadow:none}.success-overlay.active{position:static;display:block;background:#fff}.success-overlay .card{max-height:none;box-shadow:none;width:100%}#notificationBtn,#homeBtn,#printBillBtn{display:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 
-.terms-box{margin:18px 0;padding:16px;border:1px solid #d9d9d9;border-radius:16px;background:#f8f8f8;color:#171717}.terms-box h2{font-size:17px;line-height:1.35;margin-bottom:8px}.terms-box>p{font-size:12px;line-height:1.5;color:#555;margin:0 0 12px}.terms-scroll{height:230px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ddd;border-radius:12px;background:#fff;padding:13px;line-height:1.5;font-size:12px}.terms-scroll h3{font-size:12px;margin:10px 0 5px}.terms-scroll h3:first-child{margin-top:0}.terms-scroll ul{padding-left:19px}.terms-scroll li{margin:0 0 8px}.terms-scroll p{margin:5px 0}.terms-accept{display:flex;align-items:flex-start;gap:10px;margin:13px 0 4px;font-size:13px;font-weight:700;line-height:1.45;color:inherit}.terms-accept input{width:18px;height:18px;flex:0 0 18px;margin-top:1px;accent-color:#111}.terms-accept a{color:inherit;text-decoration:underline}.terms-required{font-size:11px;color:#b42318;margin-top:5px}.terms-box button:disabled{opacity:.45;cursor:not-allowed}
+.terms-box{margin:18px 0;padding:18px;border:1px solid #d9d9d9;border-radius:20px;background:linear-gradient(145deg,#fff,#f3f4f6);color:#171717;box-shadow:0 12px 28px rgba(0,0,0,.07)}.terms-box h2{font-size:18px;line-height:1.35;margin-bottom:8px;letter-spacing:.2px}.terms-box>p{font-size:12px;line-height:1.5;color:#555;margin:0 0 12px}.terms-scroll{height:260px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ddd;border-radius:12px;background:#fff;padding:13px;line-height:1.5;font-size:12px}.terms-scroll h3{font-size:12px;margin:10px 0 5px}.terms-scroll h3:first-child{margin-top:0}.terms-scroll ul{padding-left:19px}.terms-scroll li{margin:0 0 8px}.terms-scroll p{margin:5px 0}.terms-accept{display:flex;align-items:flex-start;gap:10px;margin:13px 0 4px;font-size:13px;font-weight:700;line-height:1.45;color:inherit}.terms-accept input{width:18px;height:18px;flex:0 0 18px;margin-top:1px;accent-color:#111}.terms-accept a{color:inherit;text-decoration:underline}.terms-required{font-size:12px;color:#9a3412;margin-top:7px;font-weight:700}.terms-agree-button{margin-top:10px;background:linear-gradient(135deg,#171717,#414141);letter-spacing:.5px}.terms-agree-button:disabled{opacity:.42}.terms-box button:disabled{opacity:.45;cursor:not-allowed}
 </style>
 
   <!-- EmailJS -->
@@ -90,7 +90,7 @@ html {
     <h3>YOUR BILL — UPDATED LIVE</h3>
     <div id="liveBillSummary">
       <div class="live-bill-row"><span>Food subtotal</span><strong id="liveBillSubtotal">₹0.00</strong></div>
-      <div class="live-bill-row"><span>Delivery (flat per order)</span><strong>₹20.00</strong></div>
+      <div class="live-bill-row"><span>Delivery (first order free)</span><strong>₹0.00</strong></div>
       <div class="live-bill-row"><span>Package handling</span><strong>₹10.00</strong></div>
       <div class="live-bill-row"><span>Miscellaneous</span><strong>₹10.00</strong></div>
       <div class="live-bill-row live-bill-total"><span>Estimated total</span><strong id="liveBillTotal">₹40.00</strong></div>
@@ -181,7 +181,10 @@ html {
 <h3>8. ACCEPTANCE</h3>
 <p>By selecting the acceptance checkbox, you confirm that you have read these customer terms and the food-processing disclosure. If you do not agree, do not continue to create an account or sign in through this checkout flow.</p>
 </div>
-</section><label class="terms-accept" for="termsAcceptedCustomer"><input id="termsAcceptedCustomer" type="checkbox"><span>I have read and agree to the Customer Terms &amp; Food-Processing Disclosure above. Acceptance is required to create an account or sign in.</span></label><p class="terms-required" id="termsRequiredCustomer">Please review the agreement and check the box to continue.</p>
+</section>
+<label class="terms-accept" for="termsAcceptedCustomer"><input id="termsAcceptedCustomer" type="checkbox"><span>I have read and agree to the Customer Terms &amp; Food-Processing Disclosure above.</span></label>
+<p class="terms-required" id="termsRequiredCustomer">Read the agreement, tick the box, then press I AGREE to unlock your account.</p>
+<button class="primary terms-agree-button" id="customerAgreeButton" type="button" disabled>I AGREE &amp; CONTINUE</button>
       <div class="account-note">Already have an account? <button class="switch" id="accountSwitch">Sign in</button></div>
       <div class="status" id="accountStatus"></div>
     </div>
@@ -195,7 +198,7 @@ html {
       <button class="payment selected" data-payment="Cash on Delivery"><span class="payicon">💵</span><span><strong>Cash on Delivery</strong><small>Pay when your food arrives</small></span><b>✓</b></button>
       <button class="payment off" data-payment="Online Payment" disabled aria-disabled="true"><span class="payicon">⏸️</span><span><strong>Online Payment (Temporarily Disabled)</strong><small>Not available right now</small></span><b>—</b></button>
     </div>
-    <div class="notice"><strong>PAYMENT INFO</strong>Online payment is temporarily unavailable. Please choose Cash on Delivery. Delivery is a flat ₹20 per order for every customer, regardless of item quantity or order history. Every order includes ₹10 package handling and ₹10 miscellaneous charges.</div>
+    <div class="notice"><strong>PAYMENT INFO</strong>Online payment is temporarily unavailable. Please choose Cash on Delivery. Delivery is FREE on your first regular order. From your second regular order onward, delivery is ₹20 per order. Every order includes ₹10 package handling and ₹10 miscellaneous charges.</div>
     <div class="coupon-box">
       <label for="couponCode">DISCOUNT COUPON</label>
       <div class="coupon-row"><input id="couponCode" type="text" maxlength="40" placeholder="ENTER COUPON CODE" autocomplete="off"><button id="applyCouponBtn" type="button">APPLY</button></div>
@@ -294,10 +297,10 @@ const $=id=>document.getElementById(id);
 const raw=localStorage.getItem("prachiOrderCart");
 const cart=raw?JSON.parse(raw):{};
 const subtotal=Number(localStorage.getItem("prachiOrderTotal")||0);
-let selectedBlock="",deliveryAddress="",outsideDelivery=false,paymentMethod="Cash on Delivery",deliveryCharge=20,currentUser=null,signInMode=false,storeIsOpen=true,storeLoaded=false,menuAvailability={};
+let selectedBlock="",deliveryAddress="",outsideDelivery=false,paymentMethod="Cash on Delivery",deliveryCharge=0,currentUser=null,signInMode=false,storeIsOpen=true,storeLoaded=false,menuAvailability={};
 const packageHandlingCharge=10, miscellaneousCharge=10;
 let hasPreviousOrders=false, orderHistoryChecked=false;
-async function checkOrderHistory(){if(!currentUser){hasPreviousOrders=false;orderHistoryChecked=true;return}try{const ownOrdersQuery=query(ref(db,"orders"),orderByChild("ownerUid"),equalTo(currentUser.uid));const snap=await get(ownOrdersQuery);const all=snap.val()||{};hasPreviousOrders=Object.values(all).some(o=>o && o.ownerUid===currentUser.uid && o.customOrder!==true);orderHistoryChecked=true;}catch(e){console.error("Order history check failed",e);if(localStorage.getItem("prachiHasOrdered")==="true")hasPreviousOrders=true;orderHistoryChecked=true;}}
+async function checkOrderHistory(){if(!currentUser){hasPreviousOrders=false;orderHistoryChecked=true;return}try{const ownOrdersQuery=query(ref(db,"orders"),orderByChild("ownerUid"),equalTo(currentUser.uid));const snap=await get(ownOrdersQuery);const all=snap.val()||{};hasPreviousOrders=Object.values(all).some(o=>o && o.ownerUid===currentUser.uid && o.customOrder!==true);orderHistoryChecked=true;}catch(e){console.error("Order history check failed",e);hasPreviousOrders=true;orderHistoryChecked=true;}}
 let appliedCouponCode="",appliedCouponPercent=0,discountAmount=0;
 
 onAuthStateChanged(auth,user=>{currentUser=user||null;if(user){$("email").value=user.email||"";$("password").value="";}});
@@ -333,7 +336,7 @@ function renderCouponBreakdown(){
   liveBill.innerHTML = `
    <div class="live-bill-row"><span>Food subtotal</span><strong>₹${subtotal.toFixed(2)}</strong></div>
    ${discountAmount>0?`<div class="live-bill-row" style="color:#18864b"><span>Coupon discount</span><strong>-₹${discountAmount.toFixed(2)}</strong></div>`:""}
-   <div class="live-bill-row"><span>Delivery (flat per order)</span><strong>₹${deliveryCharge.toFixed(2)}</strong></div>
+   <div class="live-bill-row"><span>Delivery</span><strong>₹${deliveryCharge.toFixed(2)}</strong></div>
    <div class="live-bill-row"><span>Package handling</span><strong>₹${packageHandlingCharge.toFixed(2)}</strong></div>
    <div class="live-bill-row"><span>Miscellaneous</span><strong>₹${miscellaneousCharge.toFixed(2)}</strong></div>
    <div class="live-bill-row live-bill-total"><span>Estimated total</span><strong>₹${finalCheckoutTotal().toFixed(2)}</strong></div>`;
@@ -434,9 +437,25 @@ $("accountSwitch").onclick=()=>{signInMode=!signInMode;$("accountTitle").textCon
 
 const customerTermsCheckbox=$("termsAcceptedCustomer");
 const customerAccountButton=$("accountBtn");
-customerTermsCheckbox.addEventListener("change",()=>{customerAccountButton.disabled=!customerTermsCheckbox.checked;$("termsRequiredCustomer").hidden=customerTermsCheckbox.checked;});
+const customerAgreeButton=$("customerAgreeButton");
+let customerTermsAcceptedThisVisit=false;
+customerAccountButton.disabled=true;
+customerAgreeButton.disabled=true;
+customerTermsCheckbox.addEventListener("change",()=>{
+ customerAgreeButton.disabled=!customerTermsCheckbox.checked;
+ $("termsRequiredCustomer").hidden=false;
+});
+customerAgreeButton.addEventListener("click",()=>{
+ if(!customerTermsCheckbox.checked)return;
+ customerTermsAcceptedThisVisit=true;
+ customerAccountButton.disabled=false;
+ customerAgreeButton.textContent="✓ AGREEMENT ACCEPTED";
+ customerAgreeButton.disabled=true;
+ $("termsRequiredCustomer").textContent="Agreement accepted for this visit. You can now create an account or sign in.";
+ $("termsRequiredCustomer").hidden=false;
+});
 $("accountBtn").onclick=async()=>{
- if(!customerTermsCheckbox.checked){message($("accountStatus"),"You must accept the Terms of Service before signing in or creating an account.");customerTermsCheckbox.focus();return;}
+ if(!customerTermsAcceptedThisVisit){message($("accountStatus"),"Read the agreement and press I AGREE before continuing.");customerTermsCheckbox.focus();return;}
  const email=$("email").value.trim(),password=$("password").value;
  if(!email||!email.includes("@")){message($("accountStatus"),"Enter a valid email address.");return}
  if(password.length<6){message($("accountStatus"),"Password must contain at least 6 characters.");return}
@@ -458,7 +477,7 @@ $("accountBtn").onclick=async()=>{
 
 async function calculateTotal(){
  if(currentUser && !orderHistoryChecked) await checkOrderHistory();
- deliveryCharge=20;
+ deliveryCharge=hasPreviousOrders?20:0;
  renderCouponBreakdown();
 }
 document.querySelectorAll(".payment").forEach(p=>p.onclick=()=>{if(p.classList.contains("off"))return;document.querySelectorAll(".payment").forEach(x=>{x.classList.remove("selected");x.querySelector("b").textContent="—"});p.classList.add("selected");p.querySelector("b").textContent="✓";paymentMethod=p.dataset.payment;calculateTotal()});

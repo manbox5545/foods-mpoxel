@@ -3,48 +3,129 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ffffff">
-  <title>Page Not Found | Mpoxel Foods</title>
+  <meta name="theme-color" content="#090b13">
+  <meta name="description" content="You may have entered an outdated or incorrect Mpoxel URL. You will be redirected to the official Mpoxel Foods website in 10 seconds.">
+  <title>Wrong URL | Redirecting to Mpoxel Foods</title>
   <style>
-    :root { color-scheme: light; --ink:#172033; --muted:#667085; --accent:#111827; --line:#e7eaf0; }
-    * { box-sizing: border-box; }
-    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px; background:#f7f8fb; color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-    main { width:min(100%,520px); padding:clamp(28px,6vw,48px); text-align:center; background:#fff; border:1px solid var(--line); border-radius:24px; box-shadow:0 18px 55px rgba(20,30,50,.07); }
-    .code { display:inline-flex; align-items:center; justify-content:center; min-width:76px; height:38px; padding:0 14px; border-radius:999px; background:#f0f2f5; color:#475467; font-size:13px; font-weight:800; letter-spacing:.12em; }
-    h1 { margin:22px 0 12px; font-size:clamp(27px,6vw,38px); line-height:1.15; letter-spacing:-.04em; }
-    p { margin:0 auto; max-width:360px; color:var(--muted); font-size:16px; line-height:1.7; }
-    a { display:inline-flex; justify-content:center; align-items:center; min-height:50px; margin-top:28px; padding:0 24px; border-radius:12px; background:var(--accent); color:#fff; text-decoration:none; font-weight:750; transition:transform .15s ease,background .15s ease; }
-    a:hover { background:#30394a; transform:translateY(-1px); }
-    a:focus-visible { outline:3px solid #98a2b3; outline-offset:4px; }
-    .brand { margin-top:24px; font-size:12px; color:#98a2b3; letter-spacing:.08em; text-transform:uppercase; }
+    :root{
+      color-scheme:dark;--bg:#090b13;--panel:#111522;--ink:#f7f8fc;--muted:#a6adbf;
+      --gold:#f6c66b;--orange:#ff784f;--cyan:#79e4df;--line:rgba(255,255,255,.12)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .page{position:relative;isolation:isolate;min-height:100vh;overflow:hidden}
+    .glow{position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px);opacity:.2}
+    .glow.one{width:420px;height:420px;background:#ff7b4f;top:-220px;left:-150px}
+    .glow.two{width:520px;height:520px;background:#725cff;right:-260px;top:260px}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+    .logo{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.06em;font-size:21px}
+    .mark{width:35px;height:35px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--orange));display:grid;place-items:center;color:#17120b;font-weight:1000;font-size:19px;box-shadow:0 7px 24px #ff9a5540}
+    .nav{display:flex;align-items:center;gap:25px;color:#c3c8d5;font-size:13px;font-weight:650}
+    .nav a:hover{color:var(--gold)}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid #ffffff20;background:#ffffff08;padding:9px 13px;border-radius:999px;color:#d9ddec;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+    .pulse{width:7px;height:7px;background:#8be2b1;border-radius:50%;box-shadow:0 0 0 5px #8be2b11b}
+    .hero{text-align:center;padding:88px 0 55px}
+    h1{font-size:clamp(43px,8vw,88px);line-height:.98;letter-spacing:-.075em;margin:24px auto 20px;max-width:900px;font-weight:950}
+    .gradient{background:linear-gradient(100deg,#fff 5%,#ffd88a 42%,#ff8b62 72%,#a8a0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{max-width:620px;margin:0 auto;color:var(--muted);font-size:clamp(15px,2vw,18px);line-height:1.75}
+    .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .btn{min-height:50px;padding:0 21px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;font-weight:850;font-size:14px;transition:transform .2s,box-shadow .2s,border-color .2s}
+    .btn:hover{transform:translateY(-3px)}
+    .primary{background:linear-gradient(110deg,var(--gold),#ff9c62);color:#21170c;box-shadow:0 12px 35px #f5a85a2e}
+    .secondary{border:1px solid #ffffff26;background:#ffffff08;color:#fff}
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:12px 0 72px}
+    .card{position:relative;min-height:330px;padding:30px;border:1px solid var(--line);border-radius:26px;overflow:hidden;background:linear-gradient(145deg,#171d2d,#10131e 75%);transition:transform .25s,border-color .25s}
+    .card:hover{transform:translateY(-5px);border-color:#ffffff45}
+    .card.food{background:linear-gradient(145deg,#2a1c1a,#15131a 75%)}
+    .card:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-65px;top:40px;background:var(--orb);opacity:.16;filter:blur(2px)}
+    .card.digital{--orb:#8a7bff}.card.food{--orb:#ff874c}
+    .card-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+    .tag{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:900;color:#d6d9e4;border:1px solid #ffffff24;border-radius:99px;padding:7px 10px}
+    .symbol{font-size:37px;filter:drop-shadow(0 8px 16px #0008)}
+    .card h2{font-size:clamp(27px,4vw,39px);line-height:1.05;letter-spacing:-.055em;margin:38px 0 12px;position:relative;z-index:1}
+    .card p{max-width:390px;color:#b3bacb;font-size:14px;line-height:1.7;margin:0;position:relative;z-index:1}
+    .card-link{display:inline-flex;align-items:center;gap:10px;margin-top:25px;font-weight:900;font-size:13px;position:relative;z-index:1}
+    .card-link span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#ffffff17;transition:transform .2s}
+    .card:hover .card-link span{transform:translateX(4px)}
+    .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;display:flex;justify-content:center;gap:clamp(20px,5vw,65px);flex-wrap:wrap;color:#aeb5c6;font-size:11px;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+    .strip b{color:#f5d28d}
+    footer{padding:28px 0 36px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#81899c;font-size:12px}
+    footer strong{color:#dce0ea}
+    @media(max-width:700px){
+      .wrap{width:min(100% - 30px,520px)}
+      header{height:66px}.nav{gap:13px;font-size:11px}.nav a:first-child{display:none}
+      .hero{padding:72px 0 38px}
+      .cards{grid-template-columns:1fr;padding-bottom:48px}
+      .card{min-height:285px;padding:25px}
+      .strip{gap:14px 24px;font-size:9px}
+      footer{justify-content:center;text-align:center}
+    }
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
   </style>
-<style>
-
-/* Mpoxel Foods theme-matched text selection */
-::selection {
-  background: rgba(205, 166, 92, 0.38);
-  color: #172033;
-  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
-}
-::-moz-selection {
-  background: rgba(205, 166, 92, 0.38);
-  color: #172033;
-  text-shadow: 0 2px 10px rgba(205, 166, 92, 0.18);
-}
-/* Selected text gets a subtle floating highlight for as long as it remains selected. */
-html {
-  --mpoxel-selection-glow: 0 3px 12px rgba(205, 166, 92, 0.16);
-}
-
-</style>
 </head>
 <body>
-  <main>
-    <div class="code">ERROR 404</div>
-    <h1>Sorry, this URL doesn’t belong to us.</h1>
-    <p>The page you’re looking for doesn’t exist or may have moved. You can instead go to our main website.</p>
-    <a href="https://food.mpoxel.in/">GO TO RIGHT URL</a>
-    <div class="brand">MPOXEL FOODS</div>
-  </main>
+<div class="page">
+  <div class="glow one"></div><div class="glow two"></div>
+  <div class="wrap">
+    <header>
+      <a class="logo" href="https://mpoxel.in/" aria-label="Mpoxel home"><span class="mark">M</span><span>MPOXEL<span style="color:var(--gold)">.</span></span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="https://mpoxel.in/">Digital world</a>
+        <a href="https://food.mpoxel.in/">Food world</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="pulse"></span> YOU ARE ON THE WRONG URL</div>
+        <h1>Oops! This isn’t<br><span class="gradient">the right address.</span></h1>
+        <p class="lead">The Mpoxel Foods website has moved. You are being redirected to our official website in <strong id="countdown" style="color:var(--gold)">10</strong> seconds. No need to search for it — we’ll take you there automatically.</p>
+        <div class="hero-actions">
+          <a class="btn primary" id="redirect-now" href="https://food.mpoxel.in/">GO TO MPOXEL FOODS NOW <span>↗</span></a>
+          <a class="btn secondary" href="https://mpoxel.in/">VISIT MPOXEL.IN <span>↗</span></a>
+        </div>
+        <p class="lead" style="font-size:12px;margin-top:17px">If you are not redirected automatically, use the button above.</p>
+      </section>
+
+      <section class="cards" aria-label="Explore Mpoxel">
+        <article class="card digital">
+          <div class="card-top"><span class="tag">01 / Digital experiences</span><span class="symbol">✳</span></div>
+          <h2>Your next idea<br>starts here.</h2>
+          <p>Explore the Mpoxel digital world — services, creative solutions and experiences built to move ideas forward.</p>
+          <a class="card-link" href="https://mpoxel.in/">DISCOVER MPOXEL.IN <span>↗</span></a>
+        </article>
+        <article class="card food">
+          <div class="card-top"><span class="tag">02 / Food & cravings</span><span class="symbol">🍔</span></div>
+          <h2>Big cravings.<br>Good food energy.</h2>
+          <p>When hunger calls, Mpoxel Foods is ready. Explore the menu and find your next delicious pick.</p>
+          <a class="card-link" href="https://food.mpoxel.in/">VISIT MPOXEL FOODS <span>↗</span></a>
+        </article>
+      </section>
+
+      <div class="strip"><span><b>OFFICIAL DESTINATION</b></span><span>FOOD.MPOXEL.IN</span><span><b>REDIRECTING</b> IN 10 SECONDS</span></div>
+    </main>
+
+    <footer><span>© <span id="year">2026</span> <strong>MPOXEL</strong>. All rights reserved.</span><span>Thanks for visiting. See you at Mpoxel Foods.</span></footer>
+  </div>
+</div>
+<script>
+  // Redirect visitors to the official Mpoxel Foods website after 10 seconds.
+  document.getElementById('year').textContent = new Date().getFullYear();
+  (function () {
+    var secondsLeft = 10;
+    var countdown = document.getElementById('countdown');
+    var timer = window.setInterval(function () {
+      secondsLeft -= 1;
+      if (countdown) countdown.textContent = secondsLeft;
+      if (secondsLeft <= 0) {
+        window.clearInterval(timer);
+        window.location.replace('https://food.mpoxel.in/');
+      }
+    }, 1000);
+  })();
+</script>
 </body>
 </html>

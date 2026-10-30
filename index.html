@@ -2361,10 +2361,12 @@ body{
 
   .scroll-paper{
     top:7vh;
-    min-height:66vh;
-    margin-bottom:5vh;
+    min-height:72vh;
+    margin-bottom:7vh;
     padding:48px 25px 58px;
     border-radius:3px 6px 4px 2px;
+    opacity:1 !important;
+    transform:translate3d(0,0,0) rotateZ(var(--paper-tilt)) scale(1) !important;
   }
 
   .paper-content h2{
@@ -2497,6 +2499,32 @@ body.paper-zone-active .bottom-nav{
 .customer-wave{width:min(1100px,calc(100% - 24px));margin:14px auto 20px;padding:clamp(20px,4vw,32px);border:1px solid #efd8ad;border-radius:20px;background:linear-gradient(120deg,#fff8e9,#ffe6b8);color:#281d0b;box-shadow:0 12px 28px rgba(74,48,10,.10);animation:waveIn .45s ease-out both}
 .customer-wave[hidden]{display:none!important}.customer-wave-copy{max-width:850px;margin:auto}.customer-wave-kicker{font-size:10px;font-weight:900;letter-spacing:.15em;color:#87642c}.customer-wave h2{font-size:clamp(22px,4vw,32px);line-height:1.15;margin:10px 0 8px;letter-spacing:-.025em}.customer-wave p{font-size:15px;line-height:1.65;white-space:pre-wrap;margin:0;color:#59482d}.customer-wave a{display:inline-flex;margin-top:18px;padding:11px 17px;border-radius:11px;background:#201a12;color:white;text-decoration:none;font-weight:850;font-size:13px}.customer-wave a:hover{transform:translateY(-1px)}@keyframes waveIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.customer-wave{animation:none}}
 
+
+/* 3D BOUNCING BURGER HERO */
+.hero-media.burger-stage{position:relative;isolation:isolate;overflow:hidden;width:min(1080px,94vw);height:clamp(300px,58vw,560px);margin:46px auto 0;border-radius:30px;background:radial-gradient(ellipse at 50% 45%,#42200f 0%,#1b100c 48%,#090909 100%);border:1px solid rgba(255,190,90,.28);box-shadow:0 26px 85px rgba(0,0,0,.55),inset 0 0 70px rgba(255,135,40,.08)}
+.stage-glow{position:absolute;width:45%;aspect-ratio:1;left:27.5%;top:18%;border-radius:50%;background:#ff7a18;filter:blur(75px);opacity:.22;pointer-events:none}
+.stage-cube{position:absolute;inset:8% 7%;border:1px solid rgba(255,220,175,.28);border-radius:24px;transform:perspective(900px) rotateX(5deg) rotateY(-7deg);transform-style:preserve-3d;box-shadow:inset 0 0 35px rgba(255,255,255,.04),0 15px 40px rgba(0,0,0,.18);pointer-events:none}
+.cube-face{position:absolute;inset:0;border:1px solid rgba(255,205,145,.12);border-radius:23px}.cube-front{background:linear-gradient(145deg,rgba(255,255,255,.045),transparent 60%)}
+.cube-back{transform:translateZ(-24px)}.cube-left{transform:rotateY(90deg) translateZ(-24px);transform-origin:left}.cube-right{transform:rotateY(-90deg) translateZ(-24px);transform-origin:right}.cube-top{transform:rotateX(90deg) translateZ(-24px);transform-origin:top}.cube-bottom{transform:rotateX(-90deg) translateZ(-24px);transform-origin:bottom}
+.bounce-field{position:absolute;inset:10% 8%;z-index:2;overflow:hidden}
+.burger-bouncer{position:absolute;left:0;top:0;width:clamp(64px,10vw,104px);height:clamp(64px,10vw,104px);display:grid;place-items:center;font-size:clamp(48px,8vw,78px);line-height:1;filter:drop-shadow(0 13px 9px rgba(0,0,0,.55));will-change:transform;user-select:none;pointer-events:none}
+.ketchup-splash{position:absolute;z-index:4;width:64px;height:54px;left:0;top:0;opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.15) rotate(-20deg);background:radial-gradient(ellipse at 50% 55%,#ff4938 0 25%,#e52325 28% 55%,transparent 59%);filter:drop-shadow(0 4px 5px rgba(0,0,0,.4))}
+.ketchup-splash::before,.ketchup-splash::after{content:"";position:absolute;border-radius:50%;background:#e52325}.ketchup-splash::before{width:17px;height:17px;left:-5px;top:1px;box-shadow:31px -9px 0 -3px #f04432,48px 13px 0 -5px #d71920,-7px 30px 0 -5px #ff4938}.ketchup-splash::after{width:9px;height:9px;right:-5px;bottom:0;box-shadow:-35px 13px 0 -2px #f04432,19px -30px 0 -3px #d71920}
+.ketchup-splash.splashed{animation:ketchupPop .5s cubic-bezier(.16,.8,.3,1) both}
+@keyframes ketchupPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.12) rotate(-30deg)}32%{opacity:1;transform:translate(-50%,-50%) scale(1.35) rotate(12deg)}68%{opacity:.95;transform:translate(-50%,-50%) scale(1) rotate(-8deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(.85) rotate(5deg)}}
+.stage-caption{position:absolute;z-index:5;left:50%;bottom:22px;transform:translateX(-50%);white-space:nowrap;color:#fff;font:800 clamp(10px,1.7vw,13px)/1 Inter,sans-serif;letter-spacing:2.5px;padding:12px 18px;border:1px solid rgba(255,255,255,.16);border-radius:99px;background:rgba(0,0,0,.42);backdrop-filter:blur(8px)}
+.live-dot{display:inline-block;width:7px;height:7px;margin:0 8px 1px 0;border-radius:50%;background:#ff5a36;box-shadow:0 0 12px #ff5a36}
+@media(max-width:600px){.hero-media.burger-stage{height:clamp(270px,78vw,390px);border-radius:22px;margin-top:30px}.stage-cube{inset:7% 5%}.bounce-field{inset:9% 6%}.stage-caption{bottom:14px;letter-spacing:1.5px;padding:10px 14px}}
+
+
+/* Performance: defer rendering work for long, off-screen sections without changing layout. */
+@supports (content-visibility: auto){
+  .menu, .paper-scroll-zone, footer{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 900px;
+  }
+}
+
 </style>
 
   <!-- EmailJS -->
@@ -2596,29 +2624,6 @@ html {
   </form>
 </div>
 
-<!-- VIDEO PLAYBACK PREFERENCE -->
-<div class="video-sound-overlay" id="videoSoundOverlay" role="dialog" aria-modal="true">
-  <div class="video-sound-box">
-    <div class="video-permission-icon" aria-hidden="true">▶</div>
-    <h2>HOW SHOULD THE VIDEO PLAY?</h2>
-    <p>Choose whether the intro video can start automatically with sound, or only when you manually click it.</p>
-
-    <div class="video-permission-actions">
-      <button class="video-sound-btn" id="enableVideoSoundBtn" type="button">
-        🔊 ALLOW &amp; PLAY WITH SOUND
-      </button>
-
-      <button class="video-manual-btn" id="manualVideoBtn" type="button">
-        NO, I DON'T WANT — I'LL PLAY IT MYSELF
-      </button>
-    </div>
-
-    <small class="video-permission-note">
-      You can always click the video to play or pause it.
-    </small>
-  </div>
-</div>
-
 <!-- ORDERING HOURS NOTICE -->
 <div class="ordering-closed-overlay" id="orderingClosedOverlay" role="dialog" aria-modal="true">
   <div class="ordering-closed-box">
@@ -2677,7 +2682,7 @@ html {
       <div><span>Package handling</span><span id="cartHandling">₹10</span></div>
       <div><span>Miscellaneous</span><span id="cartMisc">₹10</span></div>
       <div class="cart-grand-total"><span>Estimated total</span><span id="cartTotal">₹0</span></div>
-      <p class="cart-fee-note">Delivery is a flat ₹20 per order for every customer, regardless of item quantity or order history. ₹10 package handling + ₹10 miscellaneous charges apply to every order.</p>
+      <p class="cart-fee-note">Delivery is FREE on your first regular order. From your second regular order onward, delivery is ₹20 per order. ₹10 package handling + ₹10 miscellaneous charges apply to every order.</p>
     </div>
 
     <button class="buy-now" id="buyNowBtn" type="button">
@@ -2726,7 +2731,7 @@ html {
     </div>
 
     <div class="delivery-note">
-      Delivery is a flat ₹20 per order for every customer, regardless of item quantity or order history.
+      Delivery is FREE on your first regular order. From your second regular order onward, delivery is ₹20 per order.
     </div>
     <div class="repeat-total" id="repeatDetailsBill" aria-live="polite"></div>
 
@@ -2821,24 +2826,18 @@ html {
 
   <p>Fresh • Homemade • Delicious</p>
 
-  <div class="hero-media" id="heroMedia">
-    <video
-      id="heroVideo"
-      class="hero-video"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="none"
-      aria-label="Mpoxel Foods intro video">
-
-      <source
-        src="https://res.cloudinary.com/ddcmbjnzh/video/upload/vc_h264:high/intro_w0qp1d.mp4"
-        type="video/mp4">
-    </video>
-
-    <div class="video-control-hint" id="videoControlHint" aria-hidden="true">▶</div>
-    <div class="hero-badge"><i></i> TAP VIDEO TO PLAY / PAUSE</div>
+  <div class="hero-media burger-stage" id="heroMedia" aria-label="Animated burger bouncing inside a 3D glass box">
+    <div class="stage-glow" aria-hidden="true"></div>
+    <div class="stage-cube" aria-hidden="true">
+      <div class="cube-face cube-front"></div><div class="cube-face cube-back"></div>
+      <div class="cube-face cube-left"></div><div class="cube-face cube-right"></div>
+      <div class="cube-face cube-top"></div><div class="cube-face cube-bottom"></div>
+    </div>
+    <div class="bounce-field" id="bounceField">
+      <div class="burger-bouncer" id="burgerBouncer" aria-label="Bouncing burger">🍔</div>
+      <span class="ketchup-splash" id="ketchupSplash" aria-hidden="true"></span>
+    </div>
+    <div class="stage-caption"><span class="live-dot"></span> FRESH FOOD. BIG ENERGY.</div>
   </div>
 
 </section>
@@ -3232,6 +3231,12 @@ html {
     <strong>There is something waiting down here ↓</strong>
   </div>
 
+<!-- CUSTOM FOOD FEATURE PROMO -->
+<section class="custom-food-ad" id="customFoodAd" aria-label="New custom food ordering feature">
+  <div><strong>NEW: Craving something not on the menu?</strong><span>Tell us what you want. We’ll confirm availability and price before preparing it.</span></div>
+  <button type="button" id="customFoodAdBtn">ORDER CUSTOM FOOD →</button>
+</section>
+
   <div class="paper-stack">
     <article class="scroll-paper paper-a" data-paper="0">
       <span class="paper-tape">NOTE #01</span>
@@ -3315,11 +3320,7 @@ html {
 
 <!-- ================= FOOTER ================= -->
 
-<!-- CUSTOM FOOD FEATURE PROMO -->
-<section class="custom-food-ad" id="customFoodAd" aria-label="New custom food ordering feature">
-  <div><strong>NEW: Craving something not on the menu?</strong><span>Tell us what you want. We’ll confirm availability and price before preparing it.</span></div>
-  <button type="button" id="customFoodAdBtn">ORDER CUSTOM FOOD →</button>
-</section>
+
 
 <footer class="footer">
 
@@ -3379,10 +3380,23 @@ html {
     papers.forEach((paper, index) => {
       const rect = paper.getBoundingClientRect();
       const start = vh * 0.10;
+      const isMobile = window.matchMedia("(max-width:700px)").matches;
+
+      // On phones, keep every sheet visible so sticky cards collect into
+      // the same layered paper stack seen on desktop. Desktop motion is unchanged.
+      if (isMobile) {
+        paper.style.setProperty("--paper-fold", "0deg");
+        paper.style.setProperty("--paper-scale", "1");
+        paper.style.setProperty("--paper-x", "0px");
+        paper.style.setProperty("--paper-y", "0px");
+        paper.style.opacity = "1";
+        paper.style.pointerEvents = "auto";
+        return;
+      }
+
       const progress = Math.max(0, Math.min(1, (start - rect.top) / (vh * 0.72)));
 
-      // Each sheet exits completely before the next sheet becomes visually dominant.
-      // This prevents text, colors and diagonals from bleeding through one another.
+      // Desktop sheet-fold behavior is preserved.
       const exit = Math.max(0, Math.min(1, (progress - 0.08) / 0.52));
       const fold = exit * 7;
       const scale = 1 - exit * 0.025;
@@ -4126,14 +4140,14 @@ function updateCart() {
   /* Update subtotal + delivery + final total */
 
   const hasItems = names.length > 0;
-  const delivery = hasItems ? 20 : 0;
+  const delivery = hasItems ? (localStorage.getItem("prachiHasOrdered") === "true" ? 20 : 0) : 0;
   const handling = hasItems ? 10 : 0, miscellaneous = hasItems ? 10 : 0;
   const cartSubtotal = document.getElementById("cartSubtotal");
   const cartDelivery = document.getElementById("cartDelivery");
   const deliveryNote = document.getElementById("cartDeliveryNote");
   if (cartSubtotal) cartSubtotal.textContent = "₹" + total;
   if (cartDelivery) cartDelivery.textContent = "₹" + delivery;
-  if (deliveryNote) deliveryNote.textContent = "(flat fee per order)";
+  if (deliveryNote) deliveryNote.textContent = hasItems && delivery === 0 ? "(first order free)" : "(per order)";
   document.getElementById("cartHandling").textContent = `₹${handling}`;
   document.getElementById("cartMisc").textContent = `₹${miscellaneous}`;
   cartTotal.textContent = "₹" + (total + delivery + handling + miscellaneous);
@@ -4395,7 +4409,7 @@ buyNowBtn.onclick = () => {
 
 
   localStorage.setItem("prachiOrderTotal", String(subtotal));
-  localStorage.setItem("prachiOrderDelivery", "20");
+  localStorage.setItem("prachiOrderDelivery", localStorage.getItem("prachiHasOrdered") === "true" ? "20" : "0");
   localStorage.setItem("prachiOrderHandling", "10");
   localStorage.setItem("prachiOrderMisc", "10");
 
@@ -4792,7 +4806,7 @@ document.getElementById(
    OPEN REPEAT CHECKOUT
 ========================================================= */
 
-function openRepeatCheckout() {
+async function openRepeatCheckout() {
   if (!isOrderingOpen()) {
     showOrderingClosed();
     return;
@@ -4861,6 +4875,17 @@ repeatSubtotal =
 
 
   repeatDelivery = 20;
+  try {
+    const repeatUser = await authReady;
+    const repeatHistoryQuery = query(ref(prachiDb, "orders"), orderByChild("ownerUid"), equalTo(repeatUser.uid));
+    const repeatHistorySnapshot = await get(repeatHistoryQuery);
+    const repeatHistory = repeatHistorySnapshot.val() || {};
+    const hasPriorRegularOrder = Object.values(repeatHistory).some(order => order && order.ownerUid === repeatUser.uid && order.customOrder !== true);
+    repeatDelivery = hasPriorRegularOrder ? 20 : 0;
+  } catch (historyError) {
+    console.error("Could not verify repeat-order history; using standard delivery fee.", historyError);
+    repeatDelivery = 20;
+  }
   renderRepeatDetailsBill();
 
 
@@ -5026,10 +5051,10 @@ function renderRepeatDetailsBill(){
   box.innerHTML = `
     <strong>ORDER COST ESTIMATE</strong>
     <span>Food subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
-    <span>Delivery (flat per order)</span><span>₹20.00</span>
+    <span>Delivery</span><span>₹${repeatDelivery.toFixed(2)}${repeatDelivery === 0 ? " (first order free)" : ""}</span>
     <span>Package handling</span><span>₹10.00</span>
     <span>Miscellaneous</span><span>₹10.00</span>
-    <strong><span>Estimated total</span><span>₹${(repeatSubtotal + 40).toFixed(2)}</span></strong>`;
+    <strong><span>Estimated total</span><span>₹${(repeatSubtotal + repeatDelivery + 20).toFixed(2)}</span></strong>`;
 }
 function repeatFinalTotal(){
   return Math.max(0, repeatSubtotal - repeatDiscount) + repeatDelivery + 10 + 10;
@@ -5045,7 +5070,7 @@ function renderRepeatCoupon(){
     totalBox.innerHTML=`
       <span>Food subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
       ${repeatCouponCode?`<span>Coupon discount</span><span class="discount">-₹${repeatDiscount.toFixed(2)}</span>`:""}
-      <span>Delivery (flat per order)</span><span>₹${repeatDelivery.toFixed(2)}</span>
+      <span>Delivery</span><span>₹${repeatDelivery.toFixed(2)}${repeatDelivery === 0 ? " (first order free)" : ""}</span>
       <span>Package handling</span><span>₹10.00</span>
       <span>Miscellaneous</span><span>₹10.00</span>
       <strong><span>Final total</span><span>₹${repeatFinalTotal().toFixed(2)}</span></strong>`;
@@ -5265,6 +5290,7 @@ document.getElementById(
       "prachiLastOrderId",
       orderRef.key
     );
+    localStorage.setItem("prachiHasOrdered", "true");
 
     repeatPaymentOverlay.classList.remove(
       "show"
@@ -5409,180 +5435,8 @@ updateCart();
 showNavPage("home");
 
 
-/* HERO VIDEO: autoplay, loop, viewport pause, tab pause */
-const heroVideo = document.getElementById("heroVideo");
 
-if (heroVideo) {
-  heroVideo.muted = true;
-  heroVideo.defaultMuted = true;
-  heroVideo.playsInline = true;
-  heroVideo.controls = false;
-
-  const videoSoundOverlay =
-    document.getElementById("videoSoundOverlay");
-
-  const enableVideoSoundBtn =
-    document.getElementById("enableVideoSoundBtn");
-
-  const manualVideoBtn =
-    document.getElementById("manualVideoBtn");
-
-  /*
-    Video preference:
-      "sound"  = autoplay when visible with sound
-      "manual" = NEVER autoplay; user must click the video
-      null     = show the permission dialog
-  */
-  const savedVideoPreference =
-    localStorage.getItem("prachiVideoPreference");
-
-  let videoPlaybackMode =
-    savedVideoPreference === "sound" || savedVideoPreference === "manual"
-      ? savedVideoPreference
-      : null;
-
-  const hideVideoPermission = () => {
-    videoSoundOverlay?.classList.add("hidden");
-  };
-
-  const enableVideoSound = async () => {
-    try {
-      videoPlaybackMode = "sound";
-      localStorage.setItem("prachiVideoPreference", "sound");
-      localStorage.removeItem("prachiVideoSoundEnabled");
-
-      heroVideo.muted = false;
-      heroVideo.defaultMuted = false;
-      await heroVideo.play();
-
-      hideVideoPermission();
-    } catch (error) {
-      console.warn("Video sound could not be enabled.", error);
-
-      // If the browser blocks audio autoplay, keep the choice but
-      // fall back to a muted video rather than trapping the user.
-      videoPlaybackMode = "sound";
-      heroVideo.muted = true;
-      heroVideo.defaultMuted = true;
-      hideVideoPermission();
-
-      try { await heroVideo.play(); } catch (_) {}
-    }
-  };
-
-  const chooseManualVideo = () => {
-    videoPlaybackMode = "manual";
-    localStorage.setItem("prachiVideoPreference", "manual");
-    localStorage.removeItem("prachiVideoSoundEnabled");
-
-    heroVideo.pause();
-    heroVideo.muted = true;
-    heroVideo.defaultMuted = true;
-
-    hideVideoPermission();
-
-    if (heroMedia) heroMedia.classList.add("is-paused");
-    if (videoControlHint) videoControlHint.textContent = "▶";
-  };
-
-  enableVideoSoundBtn?.addEventListener("click", enableVideoSound);
-  manualVideoBtn?.addEventListener("click", chooseManualVideo);
-
-  // A saved preference means the permission dialog does not return.
-  if (videoPlaybackMode) {
-    hideVideoPermission();
-  }
-
-  // UI-only enhancement: click the existing video to pause/play it.
-  const heroMedia = document.getElementById("heroMedia");
-  const videoControlHint = document.getElementById("videoControlHint");
-
-  const flashVideoState = () => {
-    if (!heroMedia) return;
-    heroMedia.classList.add("flash");
-    window.setTimeout(() => heroMedia.classList.remove("flash"), 220);
-  };
-
-  heroVideo.addEventListener("click", async () => {
-    if (heroVideo.paused) {
-      // Manual mode always starts muted; the click itself is the user's
-      // explicit playback permission.
-      if (videoPlaybackMode === "manual") {
-        heroVideo.muted = true;
-        heroVideo.defaultMuted = true;
-      }
-
-      try {
-        await heroVideo.play();
-      } catch (error) {
-        console.debug("Manual hero video playback was blocked.", error);
-      }
-    } else {
-      heroVideo.pause();
-    }
-
-    if (heroMedia) heroMedia.classList.toggle("is-paused", heroVideo.paused);
-    if (videoControlHint) videoControlHint.textContent = heroVideo.paused ? "▶" : "Ⅱ";
-    flashVideoState();
-  });
-
-  heroVideo.addEventListener("play", () => {
-    heroMedia?.classList.remove("is-paused");
-    if (videoControlHint) videoControlHint.textContent = "Ⅱ";
-  });
-
-  heroVideo.addEventListener("pause", () => {
-    heroMedia?.classList.add("is-paused");
-    if (videoControlHint) videoControlHint.textContent = "▶";
-  });
-
-  let videoVisible = false;
-
-  const playHeroVideo = async () => {
-    if (!videoVisible || document.hidden) return;
-
-    // "No, I don't want" means NO automatic playback.
-    // The video remains visible and clickable so the user stays in control.
-    if (videoPlaybackMode === "manual") {
-      heroVideo.pause();
-      return;
-    }
-
-    // No choice yet: keep the video stopped until the user chooses.
-    if (!videoPlaybackMode) {
-      heroVideo.pause();
-      return;
-    }
-
-    try {
-      heroVideo.muted = videoPlaybackMode !== "sound";
-      heroVideo.defaultMuted = videoPlaybackMode !== "sound";
-      await heroVideo.play();
-    } catch (_) {
-      console.debug("Hero video autoplay was blocked.");
-    }
-  };
-
-  const stopHeroVideo = () => {
-    heroVideo.pause();
-    try { heroVideo.currentTime = 0; } catch (_) {}
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    videoVisible = entries[0].isIntersecting;
-    if (videoVisible) playHeroVideo();
-    else stopHeroVideo();
-  }, { threshold: 0.70 });
-
-  observer.observe(heroVideo);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) heroVideo.pause();
-    else if (videoVisible) playHeroVideo();
-  });
-
-  window.addEventListener("pagehide", () => heroVideo.pause());
-}
+/* Hero video removed; application handlers above remain intact. */
 </script>
 
 
@@ -5630,6 +5484,30 @@ if (heroVideo) {
  });
 })();
 </script>
+
+
+<script>
+(() => {
+ const stage=document.getElementById('heroMedia'),field=document.getElementById('bounceField'),burger=document.getElementById('burgerBouncer'),splashEl=document.getElementById('ketchupSplash');
+ if(!stage||!field||!burger||!splashEl)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let x=12,y=12,vx=245,vy=188,last=0,raf=0,w=0,h=0,bw=0,bh=0,scrollRaf=0,stageVisible=false;
+ function measure(){const r=field.getBoundingClientRect();w=r.width;h=r.height;bw=burger.offsetWidth;bh=burger.offsetHeight;x=Math.min(x,Math.max(0,w-bw));y=Math.min(y,Math.max(0,h-bh))}
+ function splash(px,py){splashEl.style.left=`${Math.max(0,Math.min(w,px))}px`;splashEl.style.top=`${Math.max(0,Math.min(h,py))}px`;splashEl.classList.remove('splashed');void splashEl.offsetWidth;splashEl.classList.add('splashed')}
+ function stopFrame(){if(raf){cancelAnimationFrame(raf);raf=0}last=0}
+ function startFrame(){if(!reduced&&stageVisible&&!document.hidden&&!raf)raf=requestAnimationFrame(frame)}
+ function frame(t){raf=0;if(reduced||!stageVisible||document.hidden)return;if(!last)last=t;const dt=Math.min((t-last)/1000,.035);last=t;x+=vx*dt;y+=vy*dt;
+  if(x<=0){x=0;vx=Math.abs(vx);splash(0,y+bh/2)}else if(x+bw>=w){x=Math.max(0,w-bw);vx=-Math.abs(vx);splash(w,y+bh/2)}
+  if(y<=0){y=0;vy=Math.abs(vy);splash(x+bw/2,0)}else if(y+bh>=h){y=Math.max(0,h-bh);vy=-Math.abs(vy);splash(x+bw/2,h)}
+  burger.style.transform=`translate3d(${x}px,${y}px,0) rotate(${Math.sin(t/180)*9}deg)`;raf=requestAnimationFrame(frame)}
+ function onScroll(){if(scrollRaf)return;scrollRaf=requestAnimationFrame(()=>{scrollRaf=0;if(!stageVisible)return;const r=stage.getBoundingClientRect(),shift=Math.max(-18,Math.min(18,(innerHeight/2-(r.top+r.height/2))*.035));stage.style.setProperty('--scroll-shift',`${shift}px`)})}
+ measure();if(reduced)burger.style.transform='translate3d(12px,12px,0)';
+ if('IntersectionObserver' in window){const stageObserver=new IntersectionObserver(entries=>{stageVisible=entries[0].isIntersecting;if(stageVisible){measure();startFrame();onScroll()}else stopFrame()},{rootMargin:'120px'});stageObserver.observe(stage)}else{stageVisible=true;startFrame()}
+ addEventListener('resize',()=>{measure();onScroll()},{passive:true});addEventListener('scroll',onScroll,{passive:true});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopFrame();else startFrame()});
+})();
+</script>
+
 
 </body>
 </html>
