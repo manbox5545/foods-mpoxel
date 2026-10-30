@@ -2673,11 +2673,11 @@ html {
 
     <div class="cart-total cart-breakdown">
       <div><span>Food subtotal</span><span id="cartSubtotal">₹0</span></div>
-      <div><span>Delivery <small id="cartDeliveryNote">(first order free)</small></span><span id="cartDelivery">FREE</span></div>
+      <div><span>Delivery <small id="cartDeliveryNote">(flat fee per order)</small></span><span id="cartDelivery">₹0</span></div>
       <div><span>Package handling</span><span id="cartHandling">₹10</span></div>
       <div><span>Miscellaneous</span><span id="cartMisc">₹10</span></div>
-      <div class="cart-grand-total"><span>Estimated total</span><span id="cartTotal">₹20</span></div>
-      <p class="cart-fee-note">First order: delivery is free. After that, ₹20 delivery is charged for each item priced below ₹149. ₹10 package handling + ₹10 miscellaneous charges apply to every order. Final charges are confirmed at checkout.</p>
+      <div class="cart-grand-total"><span>Estimated total</span><span id="cartTotal">₹0</span></div>
+      <p class="cart-fee-note">Delivery is a flat ₹20 per order for every customer, regardless of item quantity or order history. ₹10 package handling + ₹10 miscellaneous charges apply to every order.</p>
     </div>
 
     <button class="buy-now" id="buyNowBtn" type="button">
@@ -2726,8 +2726,9 @@ html {
     </div>
 
     <div class="delivery-note">
-      First order delivery is free. After that, delivery is ₹20 for each item priced below ₹149. Every order includes ₹10 package handling and ₹10 miscellaneous charges.
+      Delivery is a flat ₹20 per order for every customer, regardless of item quantity or order history.
     </div>
+    <div class="repeat-total" id="repeatDetailsBill" aria-live="polite"></div>
 
     <button class="repeat-next" id="repeatNextBtn" type="button">NEXT</button>
   </div>
@@ -3537,7 +3538,10 @@ async function sendEmailOrderAlert(orderId, order) {
     order_type: order.customOrder ? "CUSTOM FOOD REQUEST — PRICE NOT YET CONFIRMED" : "Regular menu order",
     items,
     subtotal: order.customOrder ? "Pending confirmation (₹0 charged)" : (order.bill ?? 0),
-    delivery_charge: order.deliveryCharge ? `₹${order.deliveryCharge}` : "FREE",
+    delivery_charge: `₹${Number(order.deliveryCharge ?? 0).toFixed(2)}`,
+    package_handling_charge: `₹${Number(order.packageHandlingCharge ?? 0).toFixed(2)}`,
+    miscellaneous_charge: `₹${Number(order.miscellaneousCharge ?? 0).toFixed(2)}`,
+    discount: `₹${Number(order.discount || 0).toFixed(2)}`,
     total: order.customOrder ? "Pending confirmation — no charge" : (order.finalBill ?? 0),
     payment_method: order.paymentMethod || "",
     customer_email: order.customerEmail || "Not provided",
@@ -4121,15 +4125,15 @@ function updateCart() {
 
   /* Update subtotal + delivery + final total */
 
-  const isFirstOrder = localStorage.getItem("prachiHasOrdered") !== "true";
-  const delivery = isFirstOrder ? 0 : Object.values(cart).reduce((sum,item) => sum + ((Number(item.price) < 149) ? 20 * Number(item.quantity || 1) : 0), 0);
-  const handling = 10, miscellaneous = 10;
+  const hasItems = names.length > 0;
+  const delivery = hasItems ? 20 : 0;
+  const handling = hasItems ? 10 : 0, miscellaneous = hasItems ? 10 : 0;
   const cartSubtotal = document.getElementById("cartSubtotal");
   const cartDelivery = document.getElementById("cartDelivery");
   const deliveryNote = document.getElementById("cartDeliveryNote");
   if (cartSubtotal) cartSubtotal.textContent = "₹" + total;
-  if (cartDelivery) cartDelivery.textContent = delivery === 0 ? "FREE" : "₹" + delivery;
-  if (deliveryNote) deliveryNote.textContent = isFirstOrder ? "(first order offer)" : "(₹20 per item under ₹149)";
+  if (cartDelivery) cartDelivery.textContent = "₹" + delivery;
+  if (deliveryNote) deliveryNote.textContent = "(flat fee per order)";
   document.getElementById("cartHandling").textContent = `₹${handling}`;
   document.getElementById("cartMisc").textContent = `₹${miscellaneous}`;
   cartTotal.textContent = "₹" + (total + delivery + handling + miscellaneous);
@@ -4391,7 +4395,7 @@ buyNowBtn.onclick = () => {
 
 
   localStorage.setItem("prachiOrderTotal", String(subtotal));
-  localStorage.setItem("prachiOrderDelivery", String(localStorage.getItem("prachiHasOrdered") === "true" ? Object.values(cart).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0),0) : 0));
+  localStorage.setItem("prachiOrderDelivery", "20");
   localStorage.setItem("prachiOrderHandling", "10");
   localStorage.setItem("prachiOrderMisc", "10");
 
@@ -4492,8 +4496,7 @@ function saveProfile(p) {
 ========================================================= */
 
 function deliveryFor(subtotal, items = cart) {
-  if (localStorage.getItem("prachiHasOrdered") !== "true") return 0;
-  return Object.values(items).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0),0);
+  return 20;
 }
 
 
@@ -4550,9 +4553,11 @@ async function openOrders() {
 
     ordersList.innerHTML = mine.map(([id, order]) => {
       const status = order.status || "Our admin is receiving your order";
-      const delivery = order.deliveryCharge || 0;
+      const delivery = Number(order.deliveryCharge ?? 0);
+      const handling = Number(order.packageHandlingCharge ?? 0);
+      const miscellaneous = Number(order.miscellaneousCharge ?? 0);
       const discount = Number(order.discount || 0);
-      const finalBill = order.finalBill ?? (Number(order.bill || 0) - discount + delivery);
+      const finalBill = order.finalBill ?? (Number(order.bill || 0) - discount + delivery + handling + miscellaneous);
       return `
         <div class="order-card">
           <strong>ORDER #${escapeHtmlIndex(id.slice(-7))}</strong>
@@ -4563,6 +4568,8 @@ async function openOrders() {
             💵 Subtotal: ₹${escapeHtmlIndex(order.bill)}<br>
             ${discount ? `🎟️ Coupon ${escapeHtmlIndex(order.couponCode || "")}: -₹${escapeHtmlIndex(discount)}<br>` : ""}
             🚚 Delivery: ₹${escapeHtmlIndex(delivery)}<br>
+            📦 Package handling: ₹${escapeHtmlIndex(handling)}<br>
+            🧾 Miscellaneous: ₹${escapeHtmlIndex(miscellaneous)}<br>
             <strong>Final bill: ₹${escapeHtmlIndex(finalBill)}</strong>
           </div>
         </div>`;
@@ -4853,7 +4860,8 @@ repeatSubtotal =
     );
 
 
-  repeatDelivery = Object.values(repeatCart).reduce((sum,item) => sum + (Number(item.price) < 149 ? 20 * Number(item.quantity || 1) : 0), 0);
+  repeatDelivery = 20;
+  renderRepeatDetailsBill();
 
 
   document.getElementById(
@@ -5012,22 +5020,36 @@ repeatOnlinePaymentOption.onkeydown = (event) => {
 ========================================================= */
 
 
+function renderRepeatDetailsBill(){
+  const box = document.getElementById("repeatDetailsBill");
+  if (!box) return;
+  box.innerHTML = `
+    <strong>ORDER COST ESTIMATE</strong>
+    <span>Food subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
+    <span>Delivery (flat per order)</span><span>₹20.00</span>
+    <span>Package handling</span><span>₹10.00</span>
+    <span>Miscellaneous</span><span>₹10.00</span>
+    <strong><span>Estimated total</span><span>₹${(repeatSubtotal + 40).toFixed(2)}</span></strong>`;
+}
 function repeatFinalTotal(){
   return Math.max(0, repeatSubtotal - repeatDiscount) + repeatDelivery + 10 + 10;
 }
 function renderRepeatCoupon(){
   const box=document.getElementById("repeatCouponBreakdown");
   if(!box)return;
-  box.innerHTML=repeatCouponCode
-    ? `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div class="discount"><span>${escapeHtmlIndex(repeatCouponCode)} (${repeatCouponPercent}% OFF)</span><strong>-₹${repeatDiscount.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div><div><span>Package handling</span><strong>₹10</strong></div><div><span>Miscellaneous</span><strong>₹10</strong></div>`
-    : `<div><span>Subtotal</span><strong>₹${repeatSubtotal.toFixed(2)}</strong></div><div><span>Delivery</span><strong>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</strong></div><div><span>Package handling</span><strong>₹10</strong></div><div><span>Miscellaneous</span><strong>₹10</strong></div>`;
-  document.getElementById("repeatTotal").innerHTML=`
-    <span>Subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
-    ${repeatCouponCode?`<span>Discount (${repeatCouponPercent}%)</span><span class="discount">-₹${repeatDiscount.toFixed(2)}</span>`:""}
-    <span>Delivery</span><span>${repeatDelivery?"₹"+repeatDelivery:"FREE"}</span>
-    <span>Package handling</span><span>₹10</span>
-    <span>Miscellaneous</span><span>₹10</span>
-    <strong><span>Total</span><span>₹${repeatFinalTotal().toFixed(2)}</span></strong>`;
+  box.innerHTML = repeatCouponCode
+    ? `<div class="discount"><span>Coupon ${escapeHtmlIndex(repeatCouponCode)} applied</span><strong>-₹${repeatDiscount.toFixed(2)}</strong></div>`
+    : "";
+  const totalBox=document.getElementById("repeatTotal");
+  if(totalBox){
+    totalBox.innerHTML=`
+      <span>Food subtotal</span><span>₹${repeatSubtotal.toFixed(2)}</span>
+      ${repeatCouponCode?`<span>Coupon discount</span><span class="discount">-₹${repeatDiscount.toFixed(2)}</span>`:""}
+      <span>Delivery (flat per order)</span><span>₹${repeatDelivery.toFixed(2)}</span>
+      <span>Package handling</span><span>₹10.00</span>
+      <span>Miscellaneous</span><span>₹10.00</span>
+      <strong><span>Final total</span><span>₹${repeatFinalTotal().toFixed(2)}</span></strong>`;
+  }
   document.getElementById("repeatOnlineExpectedAmount").textContent=`₹${repeatFinalTotal().toFixed(2)}`;
 }
 async function applyRepeatCoupon(){
