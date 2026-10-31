@@ -240,29 +240,54 @@ if (typeof emailjs !== "undefined") {
 }
 
 async function sendEmailOrderAlert(orderId, order) {
-  const items = (order.food || [])
-    .map(item => `• ${item.name} × ${item.quantity} — ₹${item.subtotal}`)
-    .join("\n");
+  // Normalize the address once so both legacy and new EmailJS templates receive it.
+  const fullAddress = String(
+    order.deliveryAddress || order.customerAddress || order.address || order.block || "Address not provided"
+  ).trim();
 
+  const foodItems = Array.isArray(order.food) ? order.food : [];
+  const customOrder = order.customOrder === true;
+  const items = foodItems.map(item => {
+    if (customOrder) return `CUSTOM REQUEST: ${String(item.name || "Food item")} — price to be confirmed`;
+    const name = String(item.name || "Food item");
+    const qty = Math.max(0, Number(item.quantity) || 0);
+    const lineTotal = Number(item.subtotal ?? ((Number(item.price) || 0) * qty)) || 0;
+    return `${name}  × ${qty}  —  ₹${lineTotal.toFixed(2)}`;
+  }).join("\n") || "No item details available";
+
+  const money = value => `₹${(Number(value) || 0).toFixed(2)}`;
   const templateParams = {
     order_id: orderId,
     customer_name: order.customerName || "",
     customer_phone: order.phone || "",
-    customer_block: order.block || "",
-    customer_address: order.deliveryAddress || "",
-    items,
-    subtotal: order.bill ?? 0,
-    delivery_charge: `₹${Number(order.deliveryCharge ?? 20).toFixed(2)}`,
-    package_handling_charge: `₹${Number(order.packageHandlingCharge ?? 10).toFixed(2)}`,
-    miscellaneous_charge: `₹${Number(order.miscellaneousCharge ?? 10).toFixed(2)}`,
-    discount: `₹${Number(order.discount || 0).toFixed(2)}`,
-    total: order.finalBill ?? 0,
-    payment_method: order.paymentMethod || "",
+    // Keep both fields populated for compatibility with older EmailJS templates.
+    customer_block: fullAddress,
+    customer_address: fullAddress,
     customer_email: order.customerEmail || "Not provided",
-    order_status: order.status || "Order received"
+    order_type: customOrder ? "Custom food request — price to be confirmed" : "Regular menu order",
+    items,
+    subtotal: customOrder ? "Pending confirmation — no charge" : money(order.bill),
+    discount: customOrder ? "₹0.00" : money(order.discount),
+    delivery_charge: customOrder ? "₹0.00" : money(order.deliveryCharge),
+    package_handling_charge: customOrder ? "₹0.00" : money(order.packageHandlingCharge),
+    miscellaneous_charge: customOrder ? "₹0.00" : money(order.miscellaneousCharge),
+    total: customOrder ? "Pending confirmation — no charge" : money(order.finalBill),
+    payment_method: order.paymentMethod || "",
+    order_status: order.status || "Order received",
+    bill_breakdown:
+      `Food subtotal: ${customOrder ? "Pending confirmation" : money(order.bill)}\n` +
+      `Discount: ${money(order.discount)}\n` +
+      `Delivery: ${money(order.deliveryCharge)}\n` +
+      `Package handling: ${money(order.packageHandlingCharge)}\n` +
+      `Miscellaneous: ${money(order.miscellaneousCharge)}\n` +
+      `TOTAL: ${customOrder ? "Pending confirmation" : money(order.finalBill)}`
   };
 
   try {
+    if (typeof emailjs === "undefined") {
+      console.warn("EmailJS SDK is unavailable.");
+      return false;
+    }
     if (
       EMAILJS_PUBLIC_KEY.includes("PASTE_YOUR_") ||
       EMAILJS_SERVICE_ID.includes("PASTE_YOUR_") ||
@@ -271,7 +296,6 @@ async function sendEmailOrderAlert(orderId, order) {
       console.warn("EmailJS is not configured yet.");
       return false;
     }
-
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
     console.log("EmailJS order alert sent.");
     return true;
